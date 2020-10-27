@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "395408605042",
+    "firebase_url": "https://music-app-3-ba447.firebaseio.com",
+    "project_id": "music-app-3-ba447",
+    "storage_bucket": "music-app-3-ba447.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:395408605042:android:a03ad023aa0db6eddc27eb",
+        "android_client_info": {
+          "package_name": "com.naim.music_app3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "395408605042-ni8sfgikacv0rglobtijv67gcg5adihn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSb7A65KV1uqudtdqZmNdelI0ZaDcReKY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "395408605042-ni8sfgikacv0rglobtijv67gcg5adihn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
