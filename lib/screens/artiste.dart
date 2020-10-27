@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:music_app3/constante/colors.dart';
 import 'package:music_app3/constante/model.dart';
 import 'package:music_app3/screens/chansons.dart';
+import 'package:music_app3/screens/download.dart';
 import 'package:music_app3/screens/music.dart';
 
 class Artistes extends StatefulWidget {
@@ -21,15 +22,6 @@ class _ArtistesState extends State<Artistes> {
   String imageAlbum = 'assets/album1.PNG';
   String image = 'assets/BackEqaliseur.jpg';
   var futureBuild;
-  void choiceAction(String choice) {
-    if (choice == Constants.ecouter) {
-      print('Settings');
-    } else if (choice == Constants.telecharger) {
-      print('Subscribe');
-    } else if (choice == Constants.partager) {
-      print('SignOut');
-    }
-  }
 
   Future getData() async {
     QuerySnapshot qn =
@@ -208,7 +200,27 @@ class _ArtistesState extends State<Artistes> {
           color: Colors.white60,
         ),
         color: Colors.purple,
-        onSelected: choiceAction,
+        onSelected: (choice) {
+          if (choice == Constants.ecouter) {
+            print('Settings');
+          } else if (choice == Constants.telecharger) {
+            var model = ModelMusic(
+              titre: snapshot[index].titre,
+              artiste: snapshot[index].artiste,
+              url: snapshot[index].url,
+              size: snapshot[index].size,
+            );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Download(model: model),
+              ),
+            );
+            print(model.titre);
+          } else if (choice == Constants.partager) {
+            print('SignOut');
+          }
+        },
         itemBuilder: (context) {
           return Constants.choices
               .map((String e) => PopupMenuItem(

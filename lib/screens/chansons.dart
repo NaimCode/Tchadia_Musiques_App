@@ -80,7 +80,7 @@ class _ChansonsState extends State<Chansons> {
                                 color: Colors.grey[900].withOpacity(0),
                                 child: SpinKitCircle(
                                   color: Colors.white,
-                                  size: 60.0,
+                                  size: 60,
                                 ),
                               );
                             } else {

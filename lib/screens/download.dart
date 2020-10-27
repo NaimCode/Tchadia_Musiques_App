@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:music_app3/constante/colors.dart';
@@ -15,6 +17,7 @@ class Download extends StatefulWidget {
 }
 
 class _DownloadState extends State<Download> {
+  double progressSize = 0.0;
   ModelMusic model;
   bool downloadComplete = false;
   bool download = false;
@@ -24,25 +27,37 @@ class _DownloadState extends State<Download> {
     Dio dio = Dio();
     try {
       var dir = await getApplicationDocumentsDirectory();
+      String pathMusic = '${dir.path}/music/${model.titre}.mp3';
+      print(pathMusic);
       await dio.download(
         model.url,
-        '${dir.path}/music/${model.titre}.mp3',
+        pathMusic,
         onReceiveProgress: (rec, total) {
           print("rec=$rec,total=$total");
           setState(() {
-            progress = ((rec / total) * 100).toStringAsFixed(0) + "%";
+            progressSize = ((rec / total) * 100);
+            progress = progressSize.toStringAsFixed(0) + "%";
             download = true;
           });
         },
       );
     } catch (e) {
       print(e);
+      setState(() {
+        download = false;
+      });
     }
     setState(() {
       progress = '100%';
       progressComplete = 'Téléchargement terminé';
       downloadComplete = true;
     });
+  }
+
+  Widget circleprogressfunction() {
+    return CircularProgressIndicator(
+        value: (progressSize / 100), //progressSize,
+        strokeWidth: 6.0);
   }
 
   @override
@@ -79,78 +94,95 @@ class _DownloadState extends State<Download> {
         appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Colors.purple[900],
+          leading: FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: downloadComplete
+                ? Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  )
+                : Container(),
+          ),
         ),
-        body: Container(
-          width: double.infinity,
-          // height: double.infinity,
-          decoration: linear(),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 5.0,
+        body: WillPopScope(
+          onWillPop: () {
+            //ShowaSneekBar
+            if (downloadComplete) {
+              Navigator.pop(context);
+            }
+          },
+          child: Container(
+            width: double.infinity,
+            // height: double.infinity,
+            decoration: linear(),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 5.0,
+                    ),
+                    width: double.infinity,
+                    child: Card(
+                      elevation: 20.0,
+                      color: Colors.purple[800],
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              model.titre,
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 30.0),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              model.artiste,
+                              style: TextStyle(
+                                  color: Colors.white70, fontSize: 20.0),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                  width: double.infinity,
-                  child: Card(
-                    elevation: 20.0,
-                    color: Colors.purple[800],
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                  Expanded(
+                    child: Container(
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          Container(
+                            height: 150.0,
+                            width: 150.0,
+                            child: circleprogressfunction(),
+                          ),
+                          SizedBox(
+                            height: 60.0,
+                          ),
                           Text(
-                            model.titre,
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 30.0),
+                            progress,
+                            style: TextStyle(
+                                color: Colors.white70, fontSize: 20.0),
                           ),
                           SizedBox(
                             height: 10.0,
                           ),
                           Text(
-                            model.artiste,
+                            progressComplete,
                             style: TextStyle(
                                 color: Colors.white70, fontSize: 20.0),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 150.0,
-                          width: 150.0,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 6.0,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 60.0,
-                        ),
-                        Text(
-                          progress,
-                          style:
-                              TextStyle(color: Colors.white70, fontSize: 20.0),
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Text(
-                          progressComplete,
-                          style:
-                              TextStyle(color: Colors.white70, fontSize: 20.0),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

@@ -111,14 +111,19 @@ class _MusicPalyerPageState extends State<MusicPlayerPage> {
           elevation: 0.0,
           backgroundColor: Colors.purple[900],
           actions: [
-            RaisedButton(
-                color: Colors.purple[900],
-                onPressed: () {},
-                child: Icon(
-                  Icons.download_sharp,
-                  size: 30,
-                  color: Colors.white,
-                ))
+            RaisedButton.icon(
+              color: Colors.purple[900],
+              onPressed: () {},
+              icon: Icon(
+                Icons.download_sharp,
+                size: 25,
+                color: Colors.white70,
+              ),
+              label: Text(
+                playlist.listmodel[playlist.index].size,
+                style: TextStyle(color: Colors.white70),
+              ),
+            ),
           ],
         ),
         body: WillPopScope(
@@ -166,7 +171,7 @@ class _MusicPalyerPageState extends State<MusicPlayerPage> {
                     backgroundImage: AssetImage(
                       'assets/upload.jpg',
                     ),
-                    radius: 90,
+                    radius: 120,
                   ),
                 ),
                 Column(
@@ -297,9 +302,6 @@ class _MusicPalyerPageState extends State<MusicPlayerPage> {
 
   void playlistNext() {
     if (playlist.index < (playlist.listmodel.length - 1)) {
-      print(playlist.index);
-      print('<');
-      print(playlist.listmodel.length);
       playlist.index++;
       setState(() {
         currentDuration = 0.0;

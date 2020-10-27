@@ -31,7 +31,8 @@ dependencies:
   flutter_spinkit: "^4.1.2"
   filesize: ^1.0.4
   just_audio: ^0.5.4
-  
+  dio: ^3.0.10
+  path_provider: ^1.6.22
   
 
 
