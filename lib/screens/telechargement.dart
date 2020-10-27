@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:music_app3/constante/colors.dart';
+import 'package:music_app3/constante/model.dart';
+import 'package:music_app3/notifier/db_helper.dart';
+import 'package:music_app3/screens/chansons.dart';
+
+import 'package:music_app3/screens/music.dart';
 
 class Telechargement extends StatefulWidget {
   @override
@@ -6,10 +13,170 @@ class Telechargement extends StatefulWidget {
 }
 
 class _TelechargementState extends State<Telechargement> {
+  List<ModelMusic> listModel = [];
+  PlaylistMusic playlist;
+  var allData = [];
+  var data = [];
+  List allDataFilter = [];
+  Future futureBuild;
+  String imageAlbum = 'assets/album1.PNG';
+  String image = 'assets/BackEqaliseur.jpg';
+
+  void choiceAction(String choice) {
+    if (choice == Constants.ecouter) {
+      print('Settings');
+    } else if (choice == Constants.telecharger) {
+      print('Subscribe');
+    } else if (choice == Constants.partager) {
+      print('SignOut');
+    }
+  }
+
+  Future getData() async {
+    var dbHelper = DataBase();
+    var employees = await dbHelper.getEmployees();
+    setState(() {
+      allData = employees;
+    });
+    return employees;
+  }
+
+  void initState() {
+    var futureBuild = getData();
+    //  searchController.addListener(searchFunction);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    //  searchController.removeListener(searchFunction);
+    searchController.dispose();
+    super.dispose();
+  }
+
+  TextEditingController searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.purple[900],
+        elevation: 10.0,
+        title: Text('Téléchargements'),
+        centerTitle: true,
+      ),
+      body: Container(
+          decoration: linear(),
+          child: FutureBuilder<List<ModelMusic>>(
+              future: futureBuild,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Container(
+                    color: Colors.grey[900].withOpacity(0),
+                    child: SpinKitCircle(
+                      color: Colors.white,
+                      size: 60,
+                    ),
+                  );
+                } else {
+                  return Container(
+                    child: ListView.builder(
+                      itemCount: allData.length,
+                      itemBuilder: (context, index) {
+                        // ModelMusic model = ModelMusic(
+                        //   titre: snapshot.data[index].data()['titre'],
+                        //   artiste: snapshot.data[index].data()['artiste'],
+                        //   url: snapshot.data[index].data()['music_url'],
+                        //   size: snapshot.data[index].data()['music_size'],
+                        // );
+                        //listModel.add(model);
+
+                        return InkWell(
+                          onTap: () {
+                            playlist =
+                                PlaylistMusic(listmodel: allData, index: index);
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    MusicPlayerPage(playlist: playlist),
+                              ),
+                            );
+                          },
+                          child: Card(
+                            color: Colors.grey[900].withOpacity(0),
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 10.0, right: 3.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(40)),
+                                      child: Center(
+                                        child: Image.asset(
+                                          imageAlbum,
+                                          width: 60.0,
+                                          height: 70.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 20.0,
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Container(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            allData[index].titre,
+                                            style: TextStyle(
+                                                fontSize: 18.0,
+                                                color: Colors.white),
+                                          ),
+                                          //SizedBox(height: 7.0),
+                                          Text(allData[index].titre,
+                                              style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  color: Colors.white60)),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Column(children: [
+                                    FlatButton(
+                                      onPressed: () {},
+                                      child: Icon(
+                                        Icons.delete_outline_outlined,
+                                        color: Colors.red[400],
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text('03:50',
+                                            style: TextStyle(
+                                                color: Colors.white30,
+                                                fontSize: 10.0))
+                                      ],
+                                    )
+                                  ])
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }
+              })),
     );
   }
 }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:music_app3/screens/apropo.dart';
 import 'package:music_app3/screens/artiste.dart';
 import 'package:music_app3/screens/chansons.dart';
-import 'package:music_app3/screens/music.dart';
 import 'package:music_app3/screens/upload.dart';
 import 'package:music_app3/screens/telechargement.dart';
 

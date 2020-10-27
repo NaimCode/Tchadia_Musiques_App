@@ -1,11 +1,9 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:music_app3/constante/colors.dart';
 import 'package:music_app3/constante/model.dart';
 import 'package:dio/dio.dart';
-import 'package:path/path.dart';
+import 'package:music_app3/notifier/db_helper.dart';
 import 'package:path_provider/path_provider.dart';
 
 // ignore: must_be_immutable
@@ -17,6 +15,8 @@ class Download extends StatefulWidget {
 }
 
 class _DownloadState extends State<Download> {
+  var dbHelper = DataBase();
+  String pathMusic;
   double progressSize = 0.0;
   ModelMusic model;
   bool downloadComplete = false;
@@ -27,7 +27,8 @@ class _DownloadState extends State<Download> {
     Dio dio = Dio();
     try {
       var dir = await getApplicationDocumentsDirectory();
-      String pathMusic = '${dir.path}/music/${model.titre}.mp3';
+      pathMusic = '${dir.path}/music/${model.titre}.mp3';
+
       print(pathMusic);
       await dio.download(
         model.url,
@@ -47,6 +48,9 @@ class _DownloadState extends State<Download> {
         download = false;
       });
     }
+    model.url = pathMusic;
+    dbHelper.saveEmployee(model);
+    print(model);
     setState(() {
       progress = '100%';
       progressComplete = 'Téléchargement terminé';
@@ -107,6 +111,7 @@ class _DownloadState extends State<Download> {
           ),
         ),
         body: WillPopScope(
+          // ignore: missing_return
           onWillPop: () {
             //ShowaSneekBar
             if (downloadComplete) {
