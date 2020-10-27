@@ -57,7 +57,7 @@ class _DownloadState extends State<Download> {
   Widget circleprogressfunction() {
     return CircularProgressIndicator(
         value: (progressSize / 100), //progressSize,
-        strokeWidth: 6.0);
+        strokeWidth: 8.0);
   }
 
   @override
