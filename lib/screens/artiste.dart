@@ -78,7 +78,7 @@ class _ArtistesState extends State<Artistes> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xfffffffc),
+      decoration: linear(),
       child: FutureBuilder(
           future: futureBuild,
           builder: (context, snapshot) {
@@ -98,7 +98,9 @@ class _ArtistesState extends State<Artistes> {
                   title: Text(
                     'Recherche',
                     style: TextStyle(
-                        fontFamily: fonttitle, fontWeight: FontWeight.bold),
+                        fontFamily: fonttitle,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 3.0),
                   ),
                   centerTitle: true,
                 ),

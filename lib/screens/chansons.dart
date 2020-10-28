@@ -4,6 +4,7 @@ import 'package:music_app3/constante/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:music_app3/constante/model.dart';
+import 'package:music_app3/screens/download.dart';
 import 'package:music_app3/screens/music.dart';
 
 class Chansons extends StatefulWidget {
@@ -20,209 +21,333 @@ class Constants {
 }
 
 class _ChansonsState extends State<Chansons> {
+  String fonttitle = FontsTitle;
+  String font = Fonts;
   List<ModelMusic> listModel = [];
   PlaylistMusic playlist;
-  String imageAlbum = 'assets/album1.PNG';
+  List allData = [];
+  List data = [];
+  List allDataFilter = [];
+  Future notFilter;
+  String imageAlbum = 'assets/album2.PNG';
   String image = 'assets/BackEqaliseur.jpg';
+  var futureBuild;
+
   Future getData() async {
     QuerySnapshot qn =
         await FirebaseFirestore.instance.collection('Music').get();
 
-    return qn.docs;
+    qn.docs.forEach((element) {
+      ModelMusicFirebase model = ModelMusicFirebase.fromMap(element.data());
+      data.add(model);
+    });
+    setState(() {
+      allData = data;
+      allDataFilter = allData;
+    });
+    return 'Complete';
   }
 
-  void choiceAction(String choice) {
-    if (choice == Constants.ecouter) {
-      print('Settings');
-    } else if (choice == Constants.telecharger) {
-      print('Subscribe');
-    } else if (choice == Constants.partager) {
-      print('SignOut');
-    }
+  void initState() {
+    futureBuild = getData();
+
+    super.initState();
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  TextEditingController searchController = TextEditingController();
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.purple[900],
-        elevation: 10.0,
-        title: Text('Musiques'),
-        centerTitle: true,
-      ),
-      body: Container(
-        decoration: linear(),
-        child: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              elevation: 10.0,
-              // backgroundColor: theme.primary,
-              expandedHeight: 250,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Image.asset(
-                  image,
-                  fit: BoxFit.cover,
+    return Container(
+      decoration: linear(),
+      child: FutureBuilder(
+          future: futureBuild,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Container(
+                color: Colors.grey[900].withOpacity(0),
+                child: SpinKitCircle(
+                  color: Colors.white,
+                  size: 60.0,
+                ),
+              );
+            } else {
+              return Scaffold(
+                appBar: AppBar(
+                  elevation: 0.0,
+                  backgroundColor: Colors.purple[900],
+                  title: Text(
+                    'Recherche',
+                    style: TextStyle(
+                        fontFamily: fonttitle,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 3.0),
+                  ),
+                  centerTitle: true,
+                ),
+                body: Container(
+                  decoration: linear(),
+                  child: Column(
+                    //crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          width: double.infinity,
+                          child: Image.asset(
+                            image,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: InkWell(
+                          onTap: () {},
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Tous les artistes...',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: fonttitle,
+                                    fontSize: 20.0),
+                              ),
+                              Icon(Icons.navigate_next,
+                                  color: Colors.white, size: 30.0)
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(flex: 2, child: artistView(allData)),
+                      Expanded(
+                        flex: 1,
+                        child: InkWell(
+                          onTap: () {},
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Toutes les musiques...',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: fonttitle,
+                                    fontSize: 20.0),
+                              ),
+                              Icon(Icons.navigate_next,
+                                  color: Colors.white, size: 30.0)
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(flex: 2, child: listView(allDataFilter)),
+                    ],
+                  ),
+                ),
+              );
+            }
+          }),
+    );
+  }
+
+  Container artistView(List snapshot) {
+    return Container(
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: allDataFilter.length,
+        itemBuilder: (context, index) {
+          return InkWell(
+            onTap: () {
+              listModel.clear();
+              for (var model in allDataFilter) {
+                ModelMusic m = ModelMusic(
+                  titre: model.titre,
+                  artiste: model.artiste,
+                  url: model.url,
+                  size: model.size,
+                );
+                listModel.add(m);
+              }
+
+              playlist = PlaylistMusic(listmodel: listModel, index: index);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MusicPlayerPage(playlist: playlist),
+                ),
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 10.0),
+              width: 150.0,
+              // height: 80.0,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(30.0),
+                    topRight: Radius.circular(30.0)),
+                child: Card(
+                  elevation: 10.0,
+                  color: Colors.grey[900],
+                  child: Center(
+                    child: Container(
+                      alignment: Alignment.bottomLeft,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(imageAlbum),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            snapshot[index].titre,
+                            style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.white,
+                                fontFamily: fonttitle,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          //SizedBox(height: 7.0),
+                          Text(snapshot[index].artiste,
+                              style: TextStyle(
+                                  fontSize: 14.0, color: Colors.white60)),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
-            Container(
-              child: SliverFixedExtentList(
-                itemExtent: 500,
-                delegate: SliverChildListDelegate(
-                  [
-                    Container(
-                      child: FutureBuilder(
-                          future: getData(),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return Container(
-                                color: Colors.grey[900].withOpacity(0),
-                                child: SpinKitCircle(
-                                  color: Colors.white,
-                                  size: 60,
-                                ),
-                              );
-                            } else {
-                              return Container(
-                                child: ListView.builder(
-                                  itemCount: snapshot.data.length,
-                                  itemBuilder: (context, index) {
-                                    ModelMusic model = ModelMusic(
-                                      titre:
-                                          snapshot.data[index].data()['titre'],
-                                      artiste: snapshot.data[index]
-                                          .data()['artiste'],
-                                      url: snapshot.data[index]
-                                          .data()['music_url'],
-                                      size: snapshot.data[index]
-                                          .data()['music_size'],
-                                    );
-                                    listModel.add(model);
-
-                                    return InkWell(
-                                      onTap: () {
-                                        playlist = PlaylistMusic(
-                                            listmodel: listModel, index: index);
-
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                MusicPlayerPage(
-                                                    playlist: playlist),
-                                          ),
-                                        );
-                                      },
-                                      child: Card(
-                                        color: Colors.grey[900].withOpacity(0),
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 10.0, right: 3.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Expanded(
-                                                flex: 1,
-                                                child: Stack(children: [
-                                                  Image.asset(
-                                                    imageAlbum,
-                                                    width: 60.0,
-                                                    height: 70.0,
-                                                  ),
-                                                  Container(
-                                                      width: 60.0,
-                                                      height: 70.0,
-                                                      child: Center(
-                                                          child: Icon(
-                                                        Icons.play_arrow,
-                                                        size: 50,
-                                                        color: Colors.white60,
-                                                      ))),
-                                                ]),
-                                              ),
-                                              SizedBox(
-                                                width: 20.0,
-                                              ),
-                                              Expanded(
-                                                flex: 3,
-                                                child: Container(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        snapshot.data[index]
-                                                            .data()['titre'],
-                                                        style: TextStyle(
-                                                            fontSize: 18.0,
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                      //SizedBox(height: 7.0),
-                                                      Text(
-                                                          snapshot.data[index]
-                                                                  .data()[
-                                                              'artiste'],
-                                                          style: TextStyle(
-                                                              fontSize: 14.0,
-                                                              color: Colors
-                                                                  .white60)),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              Column(children: [
-                                                PopupMenuButton(
-                                                  icon: Icon(
-                                                    Icons.more_vert,
-                                                    color: Colors.white60,
-                                                  ),
-                                                  color: Colors.purple,
-                                                  onSelected: choiceAction,
-                                                  itemBuilder: (context) {
-                                                    return Constants.choices
-                                                        .map((String e) =>
-                                                            PopupMenuItem(
-                                                              value: e,
-                                                              child: Text(e),
-                                                            ))
-                                                        .toList();
-                                                  },
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                        snapshot.data[index]
-                                                                .data()[
-                                                            'music_size'],
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.white30,
-                                                            fontSize: 10.0))
-                                                  ],
-                                                )
-                                              ])
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              );
-                            }
-                          }),
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
+          );
+        },
       ),
     );
+  }
+
+  Container listView(List snapshot) {
+    return Container(
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 5, //allDataFilter.length,
+        itemBuilder: (context, index) {
+          return InkWell(
+            onTap: () {
+              listModel.clear();
+              for (var model in allDataFilter) {
+                ModelMusic m = ModelMusic(
+                  titre: model.titre,
+                  artiste: model.artiste,
+                  url: model.url,
+                  size: model.size,
+                );
+                listModel.add(m);
+              }
+
+              playlist = PlaylistMusic(listmodel: listModel, index: index);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MusicPlayerPage(playlist: playlist),
+                ),
+              );
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(30.0)),
+              child: Container(
+                margin: EdgeInsets.only(right: 10.0, bottom: 5.0),
+                width: 160.0,
+                //  height: 80.0,
+                child: Card(
+                  elevation: 10.0,
+                  color: Colors.grey[900],
+                  child: Center(
+                    child: Container(
+                      alignment: Alignment.bottomLeft,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(imageAlbum),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            snapshot[index].titre,
+                            style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.white,
+                                fontFamily: fonttitle,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          //SizedBox(height: 7.0),
+                          Text(snapshot[index].artiste,
+                              style: TextStyle(
+                                  fontSize: 14.0, color: Colors.white60)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Column popMenu(List snapshot, int index) {
+    return Column(children: [
+      PopupMenuButton(
+        icon: Icon(
+          Icons.more_vert,
+          color: Colors.white60,
+        ),
+        color: Colors.purple[100],
+        onSelected: (choice) {
+          if (choice == Constants.ecouter) {
+            print('Settings');
+          } else if (choice == Constants.telecharger) {
+            var model = ModelMusic(
+              titre: snapshot[index].titre,
+              artiste: snapshot[index].artiste,
+              url: snapshot[index].url,
+              size: snapshot[index].size,
+            );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Download(model: model),
+              ),
+            );
+          } else if (choice == Constants.partager) {
+            print('SignOut');
+          }
+        },
+        itemBuilder: (context) {
+          return Constants.choices
+              .map((String e) => PopupMenuItem(
+                    value: e,
+                    child: Text(e),
+                  ))
+              .toList();
+        },
+      ),
+      Row(
+        children: [
+          Text(snapshot[index].size,
+              style: TextStyle(color: Colors.white30, fontSize: 10.0))
+        ],
+      )
+    ]);
   }
 }
