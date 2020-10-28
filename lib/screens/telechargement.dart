@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:music_app3/constante/colors.dart';
@@ -14,6 +15,7 @@ class Telechargement extends StatefulWidget {
 
 class _TelechargementState extends State<Telechargement> {
   List<ModelMusic> listModel = [];
+  var dbHelper = DataBase();
   PlaylistMusic playlist;
   var allData = [];
   var data = [];
@@ -32,8 +34,17 @@ class _TelechargementState extends State<Telechargement> {
     }
   }
 
+  void deleteMusic(ModelMusic model) {
+    var count = dbHelper.delete(model);
+    final dir = Directory(model.url);
+    dir.deleteSync(recursive: true);
+    print(count);
+    // setState(() {
+    //   futureBuild = getData();
+    // });
+  }
+
   Future getData() async {
-    var dbHelper = DataBase();
     var employees = await dbHelper.getEmployees();
     setState(() {
       allData = employees;
@@ -115,14 +126,23 @@ class _TelechargementState extends State<Telechargement> {
                                     flex: 1,
                                     child: ClipRRect(
                                       borderRadius:
-                                          BorderRadius.all(Radius.circular(40)),
-                                      child: Center(
-                                        child: Image.asset(
+                                          BorderRadius.all(Radius.circular(70)),
+                                      child: Stack(children: [
+                                        Image.asset(
                                           imageAlbum,
                                           width: 60.0,
                                           height: 70.0,
                                         ),
-                                      ),
+                                        Container(
+                                            width: 60.0,
+                                            height: 70.0,
+                                            child: Center(
+                                                child: Icon(
+                                              Icons.play_arrow,
+                                              size: 50,
+                                              color: Colors.white60,
+                                            ))),
+                                      ]),
                                     ),
                                   ),
                                   SizedBox(
@@ -142,7 +162,7 @@ class _TelechargementState extends State<Telechargement> {
                                                 color: Colors.white),
                                           ),
                                           //SizedBox(height: 7.0),
-                                          Text(allData[index].titre,
+                                          Text(allData[index].artiste,
                                               style: TextStyle(
                                                   fontSize: 14.0,
                                                   color: Colors.white60)),
@@ -152,7 +172,9 @@ class _TelechargementState extends State<Telechargement> {
                                   ),
                                   Column(children: [
                                     FlatButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _showMyDialog(allData[index]);
+                                      },
                                       child: Icon(
                                         Icons.delete_outline_outlined,
                                         color: Colors.red[400],
@@ -177,6 +199,55 @@ class _TelechargementState extends State<Telechargement> {
                   );
                 }
               })),
+    );
+  }
+
+  Future<void> _showMyDialog(ModelMusic model) async {
+    return showDialog<void>(
+      context: context,
+      //barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.purple[50],
+          title: Text(
+            'Suppression',
+          ),
+          content: Container(
+            child: SingleChildScrollView(
+              child: Center(
+                child: ListBody(
+                  children: <Widget>[
+                    Text('Voulez-vous supprimer cette musiques?'),
+                    Text(model.titre + ', ' + model.artiste,
+                        style: TextStyle(color: Colors.purple, fontSize: 25.0)),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            Center(
+              child: RaisedButton.icon(
+                  onPressed: () async {
+                    deleteMusic(model);
+                    var futureBuild2 = await getData();
+                    Navigator.of(context).pop();
+                    setState(() {
+                      allData = futureBuild2;
+                    });
+                  },
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ),
+                  label: Text('supprimer',
+                      style: TextStyle(
+                        color: Colors.red,
+                      ))),
+            ),
+          ],
+        );
+      },
     );
   }
 }

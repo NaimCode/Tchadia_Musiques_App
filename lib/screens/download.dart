@@ -13,7 +13,11 @@ class Download extends StatefulWidget {
   @override
   _DownloadState createState() => _DownloadState();
 }
+// CancelToken cancelToken = CancelToken;
 
+// dio.download(
+//     cancelToken: cancelToken,
+// );
 class _DownloadState extends State<Download> {
   var dbHelper = DataBase();
   String pathMusic;

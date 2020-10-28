@@ -68,4 +68,10 @@ class DataBase {
               ')');
     });
   }
+
+  delete(ModelMusic model) async {
+    var dbClient = await db;
+    await dbClient
+        .rawDelete('DELETE FROM Music WHERE titre = ?', [model.titre]);
+  }
 }

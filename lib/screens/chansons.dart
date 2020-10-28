@@ -125,18 +125,22 @@ class _ChansonsState extends State<Chansons> {
                                             children: [
                                               Expanded(
                                                 flex: 1,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(40)),
-                                                  child: Center(
-                                                    child: Image.asset(
-                                                      imageAlbum,
+                                                child: Stack(children: [
+                                                  Image.asset(
+                                                    imageAlbum,
+                                                    width: 60.0,
+                                                    height: 70.0,
+                                                  ),
+                                                  Container(
                                                       width: 60.0,
                                                       height: 70.0,
-                                                    ),
-                                                  ),
-                                                ),
+                                                      child: Center(
+                                                          child: Icon(
+                                                        Icons.play_arrow,
+                                                        size: 50,
+                                                        color: Colors.white60,
+                                                      ))),
+                                                ]),
                                               ),
                                               SizedBox(
                                                 width: 20.0,

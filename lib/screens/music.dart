@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:music_app3/constante/colors.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music_app3/constante/model.dart';
+import 'package:music_app3/screens/download.dart';
 
 // ignore: must_be_immutable
 class MusicPlayerPage extends StatefulWidget {
@@ -113,7 +114,15 @@ class _MusicPalyerPageState extends State<MusicPlayerPage> {
           actions: [
             RaisedButton.icon(
               color: Colors.purple[900],
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        Download(model: playlist.listmodel[playlist.index]),
+                  ),
+                );
+              },
               icon: Icon(
                 Icons.download_sharp,
                 size: 25,
@@ -132,7 +141,7 @@ class _MusicPalyerPageState extends State<MusicPlayerPage> {
             Navigator.pop(context);
           },
           child: Container(
-            decoration: linear2(),
+            decoration: linear(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
