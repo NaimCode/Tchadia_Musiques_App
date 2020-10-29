@@ -14,6 +14,8 @@ class Telechargement extends StatefulWidget {
 }
 
 class _TelechargementState extends State<Telechargement> {
+  String fonttitle = FontsTitle;
+  String font = Fonts;
   List<ModelMusic> listModel = [];
   var dbHelper = DataBase();
   PlaylistMusic playlist;
@@ -70,12 +72,6 @@ class _TelechargementState extends State<Telechargement> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.purple[900],
-        elevation: 10.0,
-        title: Text('Téléchargements'),
-        centerTitle: true,
-      ),
       body: Container(
           decoration: linear(),
           child: FutureBuilder<List<ModelMusic>>(
@@ -124,26 +120,22 @@ class _TelechargementState extends State<Telechargement> {
                                 children: [
                                   Expanded(
                                     flex: 1,
-                                    child: ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(70)),
-                                      child: Stack(children: [
-                                        Image.asset(
-                                          imageAlbum,
+                                    child: Stack(children: [
+                                      Image.asset(
+                                        imageAlbum,
+                                        width: 60.0,
+                                        height: 70.0,
+                                      ),
+                                      Container(
                                           width: 60.0,
                                           height: 70.0,
-                                        ),
-                                        Container(
-                                            width: 60.0,
-                                            height: 70.0,
-                                            child: Center(
-                                                child: Icon(
-                                              Icons.play_arrow,
-                                              size: 50,
-                                              color: Colors.white60,
-                                            ))),
-                                      ]),
-                                    ),
+                                          child: Center(
+                                              child: Icon(
+                                            Icons.play_arrow,
+                                            size: 50,
+                                            color: Colors.white60,
+                                          ))),
+                                    ]),
                                   ),
                                   SizedBox(
                                     width: 20.0,
@@ -158,14 +150,17 @@ class _TelechargementState extends State<Telechargement> {
                                           Text(
                                             allData[index].titre,
                                             style: TextStyle(
-                                                fontSize: 18.0,
-                                                color: Colors.white),
+                                              fontSize: 18.0,
+                                              color: Colors.white,
+                                              fontFamily: fonttitle,
+                                            ),
                                           ),
                                           //SizedBox(height: 7.0),
                                           Text(allData[index].artiste,
                                               style: TextStyle(
                                                   fontSize: 14.0,
-                                                  color: Colors.white60)),
+                                                  color: Colors.white60,
+                                                  fontFamily: font)),
                                         ],
                                       ),
                                     ),
@@ -211,15 +206,25 @@ class _TelechargementState extends State<Telechargement> {
           backgroundColor: Colors.purple[50],
           title: Text(
             'Suppression',
+            style:
+                TextStyle(fontFamily: fonttitle, fontWeight: FontWeight.bold),
           ),
           content: Container(
             child: SingleChildScrollView(
               child: Center(
                 child: ListBody(
                   children: <Widget>[
-                    Text('Voulez-vous supprimer cette musiques?'),
-                    Text(model.titre + ', ' + model.artiste,
-                        style: TextStyle(color: Colors.purple, fontSize: 25.0)),
+                    Text(
+                      'Voulez-vous supprimer cette musiques?',
+                      style: TextStyle(
+                        fontFamily: font,
+                      ),
+                    ),
+                    Text(model.titre,
+                        style: TextStyle(
+                            color: Colors.purple,
+                            fontSize: 25.0,
+                            fontFamily: fonttitle)),
                   ],
                 ),
               ),

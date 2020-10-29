@@ -16,6 +16,8 @@ class MusicPlayerPage extends StatefulWidget {
 }
 
 class _MusicPalyerPageState extends State<MusicPlayerPage> {
+  String fonttitle = FontsTitle;
+  String font = Fonts;
   PlaylistMusic playlist;
   bool chargementMusic = true;
   double currentDuration = 0.0;
@@ -158,15 +160,20 @@ class _MusicPalyerPageState extends State<MusicPlayerPage> {
                         Text(
                           //'$currentSlider',
                           playlist.listmodel[playlist.index].titre,
-                          style: TextStyle(color: Colors.white, fontSize: 30.0),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30.0,
+                              fontFamily: fonttitle),
                         ),
                         SizedBox(
                           height: 10.0,
                         ),
                         Text(
                           playlist.listmodel[playlist.index].artiste,
-                          style:
-                              TextStyle(color: Colors.white54, fontSize: 25.0),
+                          style: TextStyle(
+                              color: Colors.white54,
+                              fontSize: 25.0,
+                              fontFamily: font),
                         ),
                         SizedBox(
                           height: 5.0,

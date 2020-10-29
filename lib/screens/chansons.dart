@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:music_app3/constante/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:music_app3/constante/model.dart';
+import 'package:music_app3/screens/artiste.dart';
 import 'package:music_app3/screens/download.dart';
 import 'package:music_app3/screens/music.dart';
 
@@ -77,25 +77,13 @@ class _ChansonsState extends State<Chansons> {
               );
             } else {
               return Scaffold(
-                appBar: AppBar(
-                  elevation: 0.0,
-                  backgroundColor: Colors.purple[900],
-                  title: Text(
-                    'Recherche',
-                    style: TextStyle(
-                        fontFamily: fonttitle,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 3.0),
-                  ),
-                  centerTitle: true,
-                ),
                 body: Container(
                   decoration: linear(),
                   child: Column(
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        flex: 3,
+                        flex: 5,
                         child: Container(
                           width: double.infinity,
                           child: Image.asset(
@@ -111,12 +99,15 @@ class _ChansonsState extends State<Chansons> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                'Tous les artistes...',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: fonttitle,
-                                    fontSize: 20.0),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Text(
+                                  'Tous les artistes...',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: fonttitle,
+                                      fontSize: 20.0),
+                                ),
                               ),
                               Icon(Icons.navigate_next,
                                   color: Colors.white, size: 30.0)
@@ -128,16 +119,28 @@ class _ChansonsState extends State<Chansons> {
                       Expanded(
                         flex: 1,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Artistes(
+                                  pop: true,
+                                ),
+                              ),
+                            );
+                          },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                'Toutes les musiques...',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: fonttitle,
-                                    fontSize: 20.0),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Text(
+                                  'Toutes les musiques...',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: fonttitle,
+                                      fontSize: 20.0),
+                                ),
                               ),
                               Icon(Icons.navigate_next,
                                   color: Colors.white, size: 30.0)
@@ -183,13 +186,12 @@ class _ChansonsState extends State<Chansons> {
               );
             },
             child: Container(
-              margin: EdgeInsets.only(right: 10.0),
+              margin: EdgeInsets.only(right: 25.0),
               width: 150.0,
               // height: 80.0,
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(30.0),
-                    topRight: Radius.circular(30.0)),
+                borderRadius:
+                    BorderRadius.only(topRight: Radius.circular(40.0)),
                 child: Card(
                   elevation: 10.0,
                   color: Colors.grey[900],
@@ -199,7 +201,7 @@ class _ChansonsState extends State<Chansons> {
                       width: double.infinity,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(imageAlbum),
+                          image: AssetImage('assets/album1.PNG'),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -258,51 +260,133 @@ class _ChansonsState extends State<Chansons> {
                 ),
               );
             },
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(30.0)),
-              child: Container(
-                margin: EdgeInsets.only(right: 10.0, bottom: 5.0),
-                width: 160.0,
-                //  height: 80.0,
-                child: Card(
-                  elevation: 10.0,
-                  color: Colors.grey[900],
-                  child: Center(
-                    child: Container(
-                      alignment: Alignment.bottomLeft,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(imageAlbum),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            snapshot[index].titre,
-                            style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.white,
-                                fontFamily: fonttitle,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          //SizedBox(height: 7.0),
-                          Text(snapshot[index].artiste,
-                              style: TextStyle(
-                                  fontSize: 14.0, color: Colors.white60)),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            child: lastItem(snapshot, index),
           );
         },
       ),
     );
+  }
+
+  ClipRRect lastItem(List snapshot, int index) {
+    if (index == 4 && snapshot[4] != null) {
+      return ClipRRect(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(40.0)),
+        child: Container(
+          margin: EdgeInsets.only(bottom: 15.0),
+          width: 150.0,
+          //  height: 80.0,
+          child: Card(
+            elevation: 10.0,
+            color: Colors.grey[900],
+            child: Center(
+              child: Container(
+                  alignment: Alignment.bottomLeft,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(imageAlbum),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: Stack(
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              snapshot[index].titre,
+                              style: TextStyle(
+                                  fontSize: 14.0,
+                                  color: Colors.white,
+                                  fontFamily: fonttitle,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            //SizedBox(height: 7.0),
+                            Text(snapshot[index].artiste,
+                                style: TextStyle(
+                                    fontSize: 12.0, color: Colors.white60)),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                              color: Colors.black.withOpacity(0.7),
+                              width: 60.0,
+                              child: Center(
+                                child: FlatButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Artistes(
+                                          pop: true,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Icon(
+                                    Icons.navigate_next,
+                                    color: Colors.white,
+                                    size: 30.0,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  )),
+            ),
+          ),
+        ),
+      );
+    } else {
+      return ClipRRect(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(40.0)),
+        child: Container(
+          margin: EdgeInsets.only(right: 25.0, bottom: 15.0),
+          width: 150.0,
+          //  height: 80.0,
+          child: Card(
+            elevation: 10.0,
+            color: Colors.grey[900],
+            child: Center(
+              child: Container(
+                alignment: Alignment.bottomLeft,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(imageAlbum),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      snapshot[index].titre,
+                      style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.white,
+                          fontFamily: fonttitle,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    //SizedBox(height: 7.0),
+                    Text(snapshot[index].artiste,
+                        style:
+                            TextStyle(fontSize: 12.0, color: Colors.white60)),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
   }
 
   Column popMenu(List snapshot, int index) {

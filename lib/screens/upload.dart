@@ -15,6 +15,8 @@ class Upload extends StatefulWidget {
 }
 
 class _PlaylistState extends State<Upload> {
+  String fonttitle = FontsTitle;
+  String font = Fonts;
   File music;
   var duration;
   String musicsize;
@@ -122,7 +124,13 @@ class _PlaylistState extends State<Upload> {
         appBar: AppBar(
           backgroundColor: Colors.purple[900],
           elevation: 10.0,
-          title: Text('Ajout de musiques'),
+          title: Text(
+            'Ajout de musiques',
+            style: TextStyle(
+                fontFamily: fonttitle,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 3.0),
+          ),
           centerTitle: true,
         ),
         body: Container(

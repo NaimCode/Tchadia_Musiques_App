@@ -13,12 +13,13 @@ class Download extends StatefulWidget {
   @override
   _DownloadState createState() => _DownloadState();
 }
-// CancelToken cancelToken = CancelToken;
+//
 
-// dio.download(
-//     cancelToken: cancelToken,
-// );
+//
 class _DownloadState extends State<Download> {
+  Type cancelToken = CancelToken;
+  String fonttitle = FontsTitle;
+  String font = Fonts;
   var dbHelper = DataBase();
   String pathMusic;
   double progressSize = 0.0;
@@ -38,7 +39,6 @@ class _DownloadState extends State<Download> {
         model.url,
         pathMusic,
         onReceiveProgress: (rec, total) {
-          print("rec=$rec,total=$total");
           setState(() {
             progressSize = ((rec / total) * 100);
             progress = progressSize.toStringAsFixed(0) + "%";
@@ -66,6 +66,20 @@ class _DownloadState extends State<Download> {
     return CircularProgressIndicator(
         value: (progressSize / 100), //progressSize,
         strokeWidth: 8.0);
+  }
+
+  Widget annulerFunction() {
+    if (!downloadComplete) {
+      return RaisedButton(
+        color: Colors.red,
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: Text('Annuler le téléchargement',
+            style: TextStyle(color: Colors.white, fontSize: 18.0)),
+      );
+    } else
+      return Text('');
   }
 
   @override
@@ -142,18 +156,22 @@ class _DownloadState extends State<Download> {
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: [
-                            Text(
-                              model.titre,
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 30.0),
-                            ),
+                            Text(model.titre,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 30.0,
+                                  fontFamily: fonttitle,
+                                )),
                             SizedBox(
                               height: 10.0,
                             ),
                             Text(
                               model.artiste,
                               style: TextStyle(
-                                  color: Colors.white70, fontSize: 20.0),
+                                color: Colors.white70,
+                                fontSize: 20.0,
+                                fontFamily: font,
+                              ),
                             ),
                           ],
                         ),
@@ -186,6 +204,10 @@ class _DownloadState extends State<Download> {
                             style: TextStyle(
                                 color: Colors.white70, fontSize: 20.0),
                           ),
+                          SizedBox(
+                            height: 60.0,
+                          ),
+                          annulerFunction(),
                         ],
                       ),
                     ),
