@@ -185,9 +185,9 @@ class _MusicPalyerPageState extends State<MusicPlayerPage> {
                 Container(
                   child: CircleAvatar(
                     backgroundImage: AssetImage(
-                      'assets/upload.jpg',
+                      playlist.listmodel[playlist.index].image,
                     ),
-                    radius: 120,
+                    radius: 100,
                   ),
                 ),
                 Column(

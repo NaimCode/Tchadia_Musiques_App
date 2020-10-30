@@ -156,6 +156,9 @@ class _ArtistesState extends State<Artistes> {
                   artiste: model.artiste,
                   url: model.url,
                   size: model.size,
+                  time: model.time,
+                  image: model.image,
+                  contributeur: model.contributeur,
                 );
                 listModel.add(m);
               }
@@ -179,7 +182,7 @@ class _ArtistesState extends State<Artistes> {
                       flex: 1,
                       child: Stack(children: [
                         Image.asset(
-                          imageAlbum,
+                          snapshot[index].image,
                           width: 60.0,
                           height: 70.0,
                         ),
@@ -217,6 +220,12 @@ class _ArtistesState extends State<Artistes> {
                                     fontSize: 14.0,
                                     color: Colors.white60,
                                     fontFamily: font)),
+                            SizedBox(
+                              height: 9.0,
+                            ),
+                            Text(snapshot[index].time,
+                                style: TextStyle(
+                                    color: Colors.white30, fontSize: 10.0)),
                           ],
                         ),
                       ),
@@ -249,6 +258,9 @@ class _ArtistesState extends State<Artistes> {
                 artiste: model.artiste,
                 url: model.url,
                 size: model.size,
+                time: model.time,
+                image: model.image,
+                contributeur: model.contributeur,
               );
               listModel.add(m);
             }
@@ -266,6 +278,9 @@ class _ArtistesState extends State<Artistes> {
               artiste: snapshot[index].artiste,
               url: snapshot[index].url,
               size: snapshot[index].size,
+              time: snapshot[index].time,
+              image: snapshot[index].image,
+              contributeur: snapshot[index].contributeur,
             );
             Navigator.push(
               context,
@@ -289,7 +304,7 @@ class _ArtistesState extends State<Artistes> {
       Row(
         children: [
           Text(snapshot[index].size,
-              style: TextStyle(color: Colors.white30, fontSize: 10.0))
+              style: TextStyle(color: Colors.white30, fontSize: 10.0)),
         ],
       )
     ]);

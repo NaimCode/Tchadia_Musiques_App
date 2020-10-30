@@ -17,7 +17,7 @@ class DataBase {
 
   initDatabase() async {
     var documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "test.db");
+    String path = join(documentsDirectory.path, "tchadia.db");
     var theDb = await openDatabase(path, version: 1, onCreate: _onCreate);
     return theDb;
   }
@@ -25,8 +25,31 @@ class DataBase {
   void _onCreate(Database db, int version) async {
     // When creating the db, create the table
     await db.execute(
-        "CREATE TABLE Music(titre TEXT, artiste TEXT, music_path TEXT, music_size TEXT )");
+        "CREATE TABLE Music(titre TEXT, artiste TEXT, music_path TEXT, music_size TEXT, music_time TEXT, music_image TEXT, contributeur TEXT)");
     print("Created tables");
+  }
+
+  void _onCreateUser(Database db, int version) async {
+    // When creating the db, create the table
+    await db.execute("CREATE TABLE User(nom TEXT, theme TEXT, image TEXT)");
+    print("Created tables User");
+  }
+
+  Future getUser() async {
+    var dbClient = await db;
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM User');
+    User user;
+    try {
+      user.nom = list[0]["nom"];
+      user.theme = list[0]["theme"];
+      user.image = list[0]["image"];
+      return user;
+    } catch (e) {
+      user.nom = 'Annonyme';
+      user.theme = 'default';
+      user.image = '';
+      return user;
+    }
   }
 
 // Retrieving employees from Employee Tables
@@ -36,10 +59,14 @@ class DataBase {
     List<ModelMusic> musicList = new List();
     for (int i = 0; i < list.length; i++) {
       musicList.add(new ModelMusic(
-          titre: list[i]["titre"],
-          artiste: list[i]["artiste"],
-          url: list[i]["music_path"],
-          size: list[i]["music_size"]));
+        titre: list[i]["titre"],
+        artiste: list[i]["artiste"],
+        url: list[i]["music_path"],
+        size: list[i]["music_size"],
+        time: list[i]["music_time"],
+        image: list[i]["music_image"],
+        contributeur: list[i]["contributeur"],
+      ));
     }
     print(musicList.length);
     return musicList;
@@ -49,7 +76,7 @@ class DataBase {
     var dbClient = await db;
     await dbClient.transaction((txn) async {
       return await txn.rawInsert(
-          'INSERT INTO Music(titre, artiste, music_path, music_size ) VALUES(' +
+          'INSERT INTO Music(titre, artiste, music_path, music_size, music_time, music_image, contributeur) VALUES(' +
               '\'' +
               model.titre +
               '\'' +
@@ -65,6 +92,18 @@ class DataBase {
               '\'' +
               model.size +
               '\'' +
+              ',' +
+              '\'' +
+              model.time +
+              '\'' +
+              ',' +
+              '\'' +
+              model.image +
+              '\'' +
+              ',' +
+              '\'' +
+              model.contributeur +
+              '\'' +
               ')');
     });
   }
@@ -73,5 +112,24 @@ class DataBase {
     var dbClient = await db;
     await dbClient
         .rawDelete('DELETE FROM Music WHERE titre = ?', [model.titre]);
+  }
+
+  void saveUser(User user) async {
+    var dbClient = await db;
+    await dbClient.transaction((txn) async {
+      return await txn.rawInsert('INSERT INTO User(nom,theme,image) VALUES(' +
+          '\'' +
+          user.nom +
+          '\'' +
+          ',' +
+          '\'' +
+          user.theme +
+          '\'' +
+          ',' +
+          '\'' +
+          user.image +
+          '\'' +
+          ')');
+    });
   }
 }

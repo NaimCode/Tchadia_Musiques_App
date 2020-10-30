@@ -18,20 +18,20 @@ class _HomeState extends State<Home> {
   int currentindex = 1;
   Text appTitle(int i) {
     if (i == 0) {
-      return Text('Téléchargements',
+      return Text(' Téléchargements',
           style: TextStyle(
               fontFamily: fonttitle,
               fontWeight: FontWeight.bold,
               letterSpacing: 3.0));
     } else {
       if (i == 1) {
-        return Text('Tchadia',
+        return Text('  Tchadia',
             style: TextStyle(
                 fontFamily: fonttitle,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 3.0));
       } else {
-        return Text('Musiques',
+        return Text(' Musiques',
             style: TextStyle(
                 fontFamily: fonttitle,
                 fontWeight: FontWeight.bold,
@@ -108,34 +108,22 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.amber[900],
       ),
       appBar: AppBar(
-        centerTitle: true,
         title: appTitle(currentindex),
         backgroundColor: Colors.purple[900],
         elevation: appTitleEle(currentindex),
-        leading: InkWell(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Information(),
-                ));
-          },
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 10.0),
-            child: Icon(
-              Icons.menu,
-              color: Colors.white,
-              size: 25.0,
-            ),
-          ),
-        ),
         actions: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Information(),
+                  ));
+            },
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 10.0),
+              margin: EdgeInsets.symmetric(horizontal: 23.0),
               child: Icon(
-                Icons.settings,
+                Icons.menu,
                 color: Colors.white,
                 size: 25.0,
               ),

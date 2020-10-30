@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "395408605042",
-    "firebase_url": "https://music-app-3-ba447.firebaseio.com",
-    "project_id": "music-app-3-ba447",
-    "storage_bucket": "music-app-3-ba447.appspot.com"
+    "project_number": "473165427028",
+    "firebase_url": "https://tchadia-music-app.firebaseio.com",
+    "project_id": "tchadia-music-app",
+    "storage_bucket": "tchadia-music-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:395408605042:android:a03ad023aa0db6eddc27eb",
+        "mobilesdk_app_id": "1:473165427028:android:b552b2ff8e3823d96618c1",
         "android_client_info": {
-          "package_name": "com.naim.music_app3"
+          "package_name": "com.naim.tchadia_musique"
         }
       },
       "oauth_client": [
         {
-          "client_id": "395408605042-ni8sfgikacv0rglobtijv67gcg5adihn.apps.googleusercontent.com",
+          "client_id": "473165427028-j3popurr34r38djtcnjuflva8c37rl3l.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDSb7A65KV1uqudtdqZmNdelI0ZaDcReKY"
+          "current_key": "AIzaSyALv-ihgFkVCjzJuXyadTmVNUmo1f1Q4Ls"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "395408605042-ni8sfgikacv0rglobtijv67gcg5adihn.apps.googleusercontent.com",
+              "client_id": "473165427028-j3popurr34r38djtcnjuflva8c37rl3l.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

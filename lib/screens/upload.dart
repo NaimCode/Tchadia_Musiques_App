@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:music_app3/constante/colors.dart';
 import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,12 +18,16 @@ class Upload extends StatefulWidget {
 }
 
 class _PlaylistState extends State<Upload> {
+  StorageUploadTask uploadTask;
+  final player = AudioPlayer();
+  String contributeur = 'Naim';
   String fonttitle = FontsTitle;
   String font = Fonts;
   File music;
-  var duration;
+  var duration, musicTimer;
   String musicsize;
   String musicpath;
+
   // ignore: non_constant_identifier_names
   String music_down_url;
   bool loadingUpload = false;
@@ -28,6 +35,9 @@ class _PlaylistState extends State<Upload> {
   bool loadingMusicMini = false;
   final firestoreinstance = FirebaseFirestore.instance;
   void selectMusic() async {
+    setState(() {
+      loadingSelectMusic = true;
+    });
     FilePickerResult result = await FilePicker.platform.pickFiles();
     if (result != null) {
       music = File(result.files.single.path);
@@ -35,28 +45,66 @@ class _PlaylistState extends State<Upload> {
       // duration = (info['duration'] / 1000).round();
 
       musicsize = filesize(music.lengthSync());
+      musicpath = basename(music.path);
 
-      setState(() {
-        loadingSelectMusic = true;
-        music = music;
-
-        musicpath = basename(music.path);
-        uploadsongfile(music.readAsBytesSync(), musicpath);
+      uploadsongfile(music.readAsBytesSync(), musicpath, music.path);
+    } else {
+      setState(() async {
+        loadingSelectMusic = false;
       });
     }
   }
 
+  format(Duration d) => d.toString().substring(2, 7);
   // ignore: missing_return
-  Future<String> uploadsongfile(List<int> song, String songpath) async {
+  Future<String> uploadsongfile(
+      List<int> song, String songpath, String path) async {
     setState(() => loadingUpload = true);
     ref = FirebaseStorage.instance.ref().child(songpath);
-    StorageUploadTask uploadTask = ref.putData(song);
+    uploadTask = ref.putData(song);
     music_down_url = await (await uploadTask.onComplete).ref.getDownloadURL();
-
+    musicTimer = format(await player.setUrl(path));
     setState(() {
       loadingUpload = false;
       loadingMusicMini = true;
     });
+  }
+
+  String randomImage() {
+    List<String> listImage = [
+      'assets/album/album1.PNG',
+      'assets/album/album2.PNG',
+      'assets/album/album3.PNG',
+      'assets/album/album4.PNG',
+      'assets/album/album5.PNG',
+      'assets/album/album6.PNG',
+      'assets/album/album7.PNG',
+      'assets/album/album8.PNG',
+      'assets/album/album9.PNG',
+      'assets/album/album10.PNG',
+      'assets/album/album11.PNG',
+      'assets/album/album12.PNG',
+      'assets/album/album13.PNG',
+      'assets/album/album14.PNG',
+      'assets/album/album15.PNG',
+      'assets/album/album16.PNG',
+      'assets/album/album17.PNG',
+      'assets/album/album18.PNG',
+      'assets/album/album19.PNG',
+      'assets/album/album20.PNG',
+      'assets/album/album21.PNG',
+      'assets/album/album22.PNG',
+      'assets/album/album23.PNG',
+      'assets/album/album24.PNG',
+      'assets/album/album25.PNG',
+      'assets/album/album26.PNG',
+      'assets/album/album27.PNG',
+      'assets/album/album28.PNG',
+      'assets/album/album29.PNG',
+      'assets/album/album30.PNG',
+    ];
+    Random r = Random();
+    return listImage[r.nextInt(listImage.length)];
   }
 
   bool finalupload() {
@@ -67,7 +115,10 @@ class _PlaylistState extends State<Upload> {
         'titre': titreInput.text,
         'artiste': artisteInput.text,
         'music_url': music_down_url.toString(),
+        'image_url': randomImage(),
+        'music_timer': musicTimer,
         'music_size': musicsize,
+        'contributeur': contributeur,
         // 'music_duration': duration,
       };
 
@@ -77,6 +128,8 @@ class _PlaylistState extends State<Upload> {
         artisteInput.clear();
         loadingMusicMini = false;
       });
+      // firestoreinstance.collection('Contributeur').doc('Naim');
+
       return true;
     } else {
       return false;
@@ -115,6 +168,24 @@ class _PlaylistState extends State<Upload> {
               ),
               Text('Patientez s\'il vous plait...',
                   style: TextStyle(color: Colors.white)),
+              SizedBox(
+                height: 200,
+              ),
+              RaisedButton(
+                onPressed: () {
+                  uploadTask.cancel();
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Annuler',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: font,
+                      color: Colors.white,
+                      letterSpacing: 3.0),
+                ),
+                color: Colors.red,
+              )
             ],
           ),
         ),
@@ -236,22 +307,24 @@ class _PlaylistState extends State<Upload> {
                             : Icon(Icons.verified, color: Colors.white12)
                       ],
                     ),
-                    FlatButton.icon(
-                        color: Colors.amber,
-                        onPressed: () {
-                          bool ckeck = finalupload();
-                          ckeck
-                              ? Scaffold.of(context).showSnackBar(snackBar)
-                              : Scaffold.of(context)
-                                  .showSnackBar(snackBarEchec);
-                        },
-                        icon: Icon(
-                          Icons.upload_file,
-                        ),
-                        label: Text(
-                          'Ajouter la musique',
-                          style: TextStyle(),
-                        ))
+                    Builder(builder: (BuildContext context) {
+                      return FlatButton.icon(
+                          color: Colors.amber,
+                          onPressed: () {
+                            bool ckeck = finalupload();
+                            ckeck
+                                ? Scaffold.of(context).showSnackBar(snackBar)
+                                : Scaffold.of(context)
+                                    .showSnackBar(snackBarEchec);
+                          },
+                          icon: Icon(
+                            Icons.upload_file,
+                          ),
+                          label: Text(
+                            'Ajouter la musique',
+                            style: TextStyle(),
+                          ));
+                    })
                   ],
                 ),
               ),

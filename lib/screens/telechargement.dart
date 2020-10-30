@@ -177,10 +177,10 @@ class _TelechargementState extends State<Telechargement> {
                                     ),
                                     Row(
                                       children: [
-                                        Text('03:50',
+                                        Text(allData[index].time,
                                             style: TextStyle(
                                                 color: Colors.white30,
-                                                fontSize: 10.0))
+                                                fontSize: 10.0)),
                                       ],
                                     )
                                   ])

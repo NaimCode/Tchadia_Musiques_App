@@ -201,7 +201,9 @@ class _ChansonsState extends State<Chansons> {
                       width: double.infinity,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage('assets/album1.PNG'),
+                          image: AssetImage(
+                            snapshot[index].image,
+                          ),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -284,7 +286,9 @@ class _ChansonsState extends State<Chansons> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(imageAlbum),
+                      image: AssetImage(
+                        snapshot[index].image,
+                      ),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -360,7 +364,9 @@ class _ChansonsState extends State<Chansons> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(imageAlbum),
+                    image: AssetImage(
+                      snapshot[index].image,
+                    ),
                     fit: BoxFit.cover,
                   ),
                 ),

@@ -7,122 +7,135 @@ class Information extends StatefulWidget {
 }
 
 class _InformationState extends State<Information> {
+  String fonttitle = FontsTitle;
+  String font = Fonts;
   String image = 'assets/bacground3.jpg';
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Plus'),
-        centerTitle: true,
-        backgroundColor: Colors.purple[900],
-      ),
-      body: Container(
-        width: double.infinity,
-        decoration: linear(),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Card(
-            color: Colors.grey[900].withOpacity(0),
-            child: FlatButton(
-              onPressed: () {},
-              child: Row(
-                children: [
-                  Icon(Icons.share_outlined, color: Colors.white70),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  Text(
-                    'Partager',
-                    style: TextStyle(color: Colors.white70),
-                  )
-                ],
+    return Container(
+      width: MediaQuery.of(context).size.width / 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Plus', style: TextStyle(fontFamily: fonttitle)),
+          centerTitle: true,
+          leading: FlatButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.expand_more,
+                color: Colors.white,
+              )),
+          backgroundColor: Colors.purple[900],
+        ),
+        body: Container(
+          width: double.infinity,
+          decoration: linear(),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Card(
+              color: Colors.grey[900].withOpacity(0),
+              child: FlatButton(
+                onPressed: () {},
+                child: Row(
+                  children: [
+                    Icon(Icons.share_outlined, color: Colors.white70),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Text(
+                      'Partager',
+                      style: TextStyle(color: Colors.white70),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 20.0,
-          ),
-          Card(
-            color: Colors.grey[900].withOpacity(0),
-            child: FlatButton(
-              onPressed: () {},
-              child: Row(
-                children: [
-                  Icon(Icons.star_border_outlined, color: Colors.white70),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  Text(
-                    'Notez-nous',
-                    style: TextStyle(color: Colors.white70),
-                  )
-                ],
+            SizedBox(
+              height: 20.0,
+            ),
+            Card(
+              color: Colors.grey[900].withOpacity(0),
+              child: FlatButton(
+                onPressed: () {},
+                child: Row(
+                  children: [
+                    Icon(Icons.star_border_outlined, color: Colors.white70),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Text(
+                      'Notez-nous',
+                      style: TextStyle(color: Colors.white70),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 20.0,
-          ),
-          Card(
-            color: Colors.grey[900].withOpacity(0),
-            child: FlatButton(
-              onPressed: () {},
-              child: Row(
-                children: [
-                  Icon(Icons.privacy_tip_outlined, color: Colors.white70),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  Text(
-                    'Politique de confidentialité',
-                    style: TextStyle(color: Colors.white70),
-                  )
-                ],
+            SizedBox(
+              height: 20.0,
+            ),
+            Card(
+              color: Colors.grey[900].withOpacity(0),
+              child: FlatButton(
+                onPressed: () {},
+                child: Row(
+                  children: [
+                    Icon(Icons.privacy_tip_outlined, color: Colors.white70),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Text(
+                      'Politique de confidentialité',
+                      style: TextStyle(color: Colors.white70),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 20.0,
-          ),
-          Card(
-            color: Colors.grey[900].withOpacity(0),
-            child: FlatButton(
-              onPressed: () {},
-              child: Row(
-                children: [
-                  Icon(Icons.people_alt_outlined, color: Colors.white70),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  Text(
-                    'Contributeurs',
-                    style: TextStyle(color: Colors.white70),
-                  )
-                ],
+            SizedBox(
+              height: 20.0,
+            ),
+            Card(
+              color: Colors.grey[900].withOpacity(0),
+              child: FlatButton(
+                onPressed: () {},
+                child: Row(
+                  children: [
+                    Icon(Icons.people_alt_outlined, color: Colors.white70),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Text(
+                      'Contributeurs',
+                      style: TextStyle(color: Colors.white70),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 20.0,
-          ),
-          Card(
-            color: Colors.grey[900].withOpacity(0),
-            child: FlatButton(
-              onPressed: () {},
-              child: Row(
-                children: [
-                  Icon(Icons.info_outline, color: Colors.white70),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  Text(
-                    'Informations',
-                    style: TextStyle(color: Colors.white70),
-                  )
-                ],
-              ),
+            SizedBox(
+              height: 20.0,
             ),
-          )
-        ]),
+            Card(
+              color: Colors.grey[900].withOpacity(0),
+              child: FlatButton(
+                onPressed: () {},
+                child: Row(
+                  children: [
+                    Icon(Icons.info_outline, color: Colors.white70),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Text(
+                      'Informations',
+                      style: TextStyle(color: Colors.white70),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ]),
+        ),
       ),
     );
   }
