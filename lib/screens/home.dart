@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:music_app3/constante/colors.dart';
+import 'package:music_app3/notifier/db_helper.dart';
 import 'package:music_app3/screens/apropo.dart';
 import 'package:music_app3/screens/artiste.dart';
 import 'package:music_app3/screens/chansons.dart';
@@ -18,20 +19,20 @@ class _HomeState extends State<Home> {
   int currentindex = 1;
   Text appTitle(int i) {
     if (i == 0) {
-      return Text(' Téléchargements',
+      return Text('Téléchargements',
           style: TextStyle(
               fontFamily: fonttitle,
               fontWeight: FontWeight.bold,
               letterSpacing: 3.0));
     } else {
       if (i == 1) {
-        return Text('  Tchadia',
+        return Text('Tchadia',
             style: TextStyle(
                 fontFamily: fonttitle,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 3.0));
       } else {
-        return Text(' Musiques',
+        return Text('Musiques',
             style: TextStyle(
                 fontFamily: fonttitle,
                 fontWeight: FontWeight.bold,
@@ -108,6 +109,7 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.amber[900],
       ),
       appBar: AppBar(
+        leading: Container(),
         title: appTitle(currentindex),
         backgroundColor: Colors.purple[900],
         elevation: appTitleEle(currentindex),

@@ -1,9 +1,11 @@
+import 'package:flutter/services.dart';
 import 'package:music_app3/constante/model.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Importing 'package:flutter/widgets.dart' is required.
 class DataBase {
@@ -26,13 +28,9 @@ class DataBase {
     // When creating the db, create the table
     await db.execute(
         "CREATE TABLE Music(titre TEXT, artiste TEXT, music_path TEXT, music_size TEXT, music_time TEXT, music_image TEXT, contributeur TEXT)");
-    print("Created tables");
-  }
-
-  void _onCreateUser(Database db, int version) async {
-    // When creating the db, create the table
     await db.execute("CREATE TABLE User(nom TEXT, theme TEXT, image TEXT)");
     print("Created tables User");
+    print("Created tables");
   }
 
   Future getUser() async {
@@ -131,5 +129,45 @@ class DataBase {
           '\'' +
           ')');
     });
+  }
+}
+
+class SharedPref {
+  setSharedPref(String key, String type, var nom) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (type == 'String') {
+      prefs.setString(key, nom);
+    } else {
+      if (type == 'int') {
+        prefs.setInt(key, nom);
+      } else {
+        if (type == 'bool') {
+          prefs.setBool(key, nom);
+        } else {
+          if (type == 'double') {
+            prefs.setDouble(key, nom);
+          }
+        }
+      }
+    }
+  }
+
+  getSharedPrefString(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String nom = prefs.getString(key) ?? "";
+    return nom;
+    // } else {
+    //   if (type == 'int') {
+    //     return prefs.getInt(key);
+    //   } else {
+    //     if (type == 'bool') {
+    //       return prefs.getBool(key);
+    //     } else {
+    //       if (type == 'double') {
+    //         return prefs.getDouble(key);
+    //       }
+    //     }
+    //   }
+    // }
   }
 }

@@ -66,12 +66,13 @@ Decoration imageBack() {
   );
 }
 
-class Music {
-  String url;
-  String titre;
-  String artiste;
-  int duree;
-  Music({this.artiste, this.titre, this.url, this.duree});
+Decoration imageSplash() {
+  return BoxDecoration(
+    image: DecorationImage(
+      image: AssetImage("assets/splash.png"),
+      fit: BoxFit.cover,
+    ),
+  );
 }
 
 Color back = Color(0xff130E25);

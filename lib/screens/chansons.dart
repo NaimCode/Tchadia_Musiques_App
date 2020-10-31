@@ -250,6 +250,9 @@ class _ChansonsState extends State<Chansons> {
                   artiste: model.artiste,
                   url: model.url,
                   size: model.size,
+                  time: model.time,
+                  image: model.image,
+                  contributeur: model.contributeur,
                 );
                 listModel.add(m);
               }
@@ -393,51 +396,5 @@ class _ChansonsState extends State<Chansons> {
         ),
       );
     }
-  }
-
-  Column popMenu(List snapshot, int index) {
-    return Column(children: [
-      PopupMenuButton(
-        icon: Icon(
-          Icons.more_vert,
-          color: Colors.white60,
-        ),
-        color: Colors.purple[100],
-        onSelected: (choice) {
-          if (choice == Constants.ecouter) {
-            print('Settings');
-          } else if (choice == Constants.telecharger) {
-            var model = ModelMusic(
-              titre: snapshot[index].titre,
-              artiste: snapshot[index].artiste,
-              url: snapshot[index].url,
-              size: snapshot[index].size,
-            );
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Download(model: model),
-              ),
-            );
-          } else if (choice == Constants.partager) {
-            print('SignOut');
-          }
-        },
-        itemBuilder: (context) {
-          return Constants.choices
-              .map((String e) => PopupMenuItem(
-                    value: e,
-                    child: Text(e),
-                  ))
-              .toList();
-        },
-      ),
-      Row(
-        children: [
-          Text(snapshot[index].size,
-              style: TextStyle(color: Colors.white30, fontSize: 10.0))
-        ],
-      )
-    ]);
   }
 }
