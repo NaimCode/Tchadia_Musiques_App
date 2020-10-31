@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:music_app3/constante/colors.dart';
 import 'package:music_app3/notifier/db_helper.dart';
 import 'package:music_app3/screens/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -44,7 +45,13 @@ class _SplashState extends State<Splash> {
   FirstDialog() {
     TextEditingController nomInput = TextEditingController();
     bool erreur = false;
-    var sf = SharedPref();
+    setSFNom() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      await prefs.setString('Nom', nomInput.text);
+      print('Nom ajouter');
+    }
+
     return showDialog<void>(
       context: context,
       //barrierDismissible: false, // user must tap button!
@@ -85,7 +92,7 @@ class _SplashState extends State<Splash> {
                         nomInput.clear();
                       });
                     } else {
-                      sf.setSharedPref('Nom', 'String', nomInput.text);
+                      setSFNom();
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

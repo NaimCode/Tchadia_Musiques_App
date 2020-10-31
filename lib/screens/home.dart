@@ -7,6 +7,8 @@ import 'package:music_app3/screens/artiste.dart';
 import 'package:music_app3/screens/chansons.dart';
 import 'package:music_app3/screens/upload.dart';
 import 'package:music_app3/screens/telechargement.dart';
+import 'package:music_app3/splash.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -53,6 +55,7 @@ class _HomeState extends State<Home> {
     }
   }
 
+  //var nom = prefs.getString('Nom') ?? "";
   @override
   Widget build(BuildContext context) {
     List tabs = [
@@ -63,6 +66,7 @@ class _HomeState extends State<Home> {
       Artistes(pop: false),
       // Information()
     ];
+
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
         buttonBackgroundColor: Colors.purple[700],

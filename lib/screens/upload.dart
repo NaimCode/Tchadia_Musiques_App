@@ -11,6 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:filesize/filesize.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Upload extends StatefulWidget {
   @override
@@ -20,7 +21,7 @@ class Upload extends StatefulWidget {
 class _PlaylistState extends State<Upload> {
   StorageUploadTask uploadTask;
   final player = AudioPlayer();
-  String contributeur = 'Naim';
+  String contributeur = 'Inconnu';
   String fonttitle = FontsTitle;
   String font = Fonts;
   File music;
@@ -46,7 +47,8 @@ class _PlaylistState extends State<Upload> {
 
       musicsize = filesize(music.lengthSync());
       musicpath = basename(music.path);
-
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      contributeur = prefs.getString('Nom') ?? 'Inconnu';
       uploadsongfile(music.readAsBytesSync(), musicpath, music.path);
     } else {
       setState(() async {
@@ -212,7 +214,7 @@ class _PlaylistState extends State<Upload> {
                 height: 200,
                 width: double.infinity,
                 child: Image.asset(
-                  'assets/image2.jpg',
+                  'assets/BackEqaliseur.jpg',
                   fit: BoxFit.cover,
                 ),
               ),

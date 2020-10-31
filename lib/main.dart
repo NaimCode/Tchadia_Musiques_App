@@ -4,26 +4,29 @@ import 'package:music_app3/constante/model.dart';
 import 'package:music_app3/notifier/db_helper.dart';
 import 'package:music_app3/screens/home.dart';
 import 'package:music_app3/splash.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
 
+  var nom = prefs.getString('Nom');
   await Firebase.initializeApp();
 
-  runApp(MyApp());
-}
-
-debut() {
-  var sf = SharedPref();
-  var nom = sf.getSharedPrefString('Nom');
-  if (nom == "") {
-    return Splash();
-  } else {
-    return Home();
-  }
+  runApp(MyApp(nom));
 }
 
 class MyApp extends StatelessWidget {
+  debut() {
+    if (nom != null) {
+      return Home();
+    } else {
+      return Splash();
+    }
+  }
+
+  String nom;
+  MyApp(this.nom);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

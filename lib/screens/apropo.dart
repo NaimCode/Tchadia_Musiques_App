@@ -9,9 +9,12 @@ class Information extends StatefulWidget {
 }
 
 class _InformationState extends State<Information> {
-  void sharedF() {
-    SharedPref sf = SharedPref();
-    nom = sf.getSharedPrefString('Nom');
+  getSFNom() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      nom = prefs.getString('Nom') ?? "Annonyme";
+    });
   }
 
   String fonttitle = FontsTitle;
@@ -19,7 +22,7 @@ class _InformationState extends State<Information> {
   String font = Fonts;
   String image = 'assets/bacground3.jpg';
   void initState() {
-    sharedF();
+    getSFNom();
     super.initState();
   }
 
@@ -29,7 +32,7 @@ class _InformationState extends State<Information> {
       width: MediaQuery.of(context).size.width / 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Plus', style: TextStyle(fontFamily: fonttitle)),
+          title: Text('$nom', style: TextStyle(fontFamily: fonttitle)),
           centerTitle: true,
           leading: FlatButton(
               onPressed: () {
@@ -48,9 +51,19 @@ class _InformationState extends State<Information> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                child: Row(children: [
-                  Text(nom),
-                ]),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage(
+                          'assets/album1.PNG',
+                        ),
+                        radius: 100,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Card(
                 color: Colors.grey[900].withOpacity(0),
