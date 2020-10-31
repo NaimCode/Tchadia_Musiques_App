@@ -124,6 +124,7 @@ class _PlaylistState extends State<Upload> {
         // 'music_duration': duration,
       };
 
+      firestoreinstance.collection('Contributeur').doc(contributeur);
       firestoreinstance.collection('Music').doc().set(data);
       setState(() {
         titreInput.clear();
