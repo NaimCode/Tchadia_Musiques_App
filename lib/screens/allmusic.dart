@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:music_app3/constante/colors.dart';
 import 'package:music_app3/constante/model.dart';
-import 'package:music_app3/screens/chansons.dart';
+import 'package:music_app3/screens/index.dart';
 import 'package:music_app3/screens/download.dart';
 import 'package:music_app3/screens/music.dart';
 

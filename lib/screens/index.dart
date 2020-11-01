@@ -3,9 +3,11 @@ import 'package:music_app3/constante/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:music_app3/constante/model.dart';
-import 'package:music_app3/screens/artiste.dart';
-import 'package:music_app3/screens/download.dart';
+import 'package:music_app3/screens/allmusic.dart';
+import 'package:music_app3/screens/artistList.dart';
+import 'package:music_app3/screens/artistmusic.dart';
 import 'package:music_app3/screens/music.dart';
+import "dart:collection";
 
 class Chansons extends StatefulWidget {
   @override
@@ -23,6 +25,8 @@ class Constants {
 class _ChansonsState extends State<Chansons> {
   String fonttitle = FontsTitle;
   String font = Fonts;
+  List artistList = [];
+  List artistListFilter = [];
   List<ModelMusic> listModel = [];
   PlaylistMusic playlist;
   List allData = [];
@@ -41,17 +45,34 @@ class _ChansonsState extends State<Chansons> {
       ModelMusicFirebase model = ModelMusicFirebase.fromMap(element.data());
       data.add(model);
     });
-    setState(() {
-      allData = data;
-      allDataFilter = allData;
+    allData = data;
+    allData.forEach((element) {
+      artistList.add(element.artiste);
     });
+    setState(() {
+      allDataFilter = allData;
+      artistListFilter = LinkedHashSet<String>.from(artistList).toList();
+    });
+
     return 'Complete';
   }
 
+  void artistFunction() {}
+
   void initState() {
     futureBuild = getData();
-
+    artistFunction();
     super.initState();
+  }
+
+  List artistMusic(String artiste) {
+    List list = [];
+    allDataFilter.forEach((element) {
+      if (element.artiste == artiste) {
+        list.add(element);
+      }
+    });
+    return list;
   }
 
   @override
@@ -95,7 +116,15 @@ class _ChansonsState extends State<Chansons> {
                       Expanded(
                         flex: 1,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ArtistList(artistListFilter, allDataFilter),
+                              ),
+                            );
+                          },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -115,7 +144,7 @@ class _ChansonsState extends State<Chansons> {
                           ),
                         ),
                       ),
-                      Expanded(flex: 2, child: artistView(allData)),
+                      Expanded(flex: 2, child: artistView(artistListFilter)),
                       Expanded(
                         flex: 1,
                         child: InkWell(
@@ -162,31 +191,22 @@ class _ChansonsState extends State<Chansons> {
     return Container(
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: allDataFilter.length,
+        itemCount: snapshot.length,
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              listModel.clear();
-              for (var model in allDataFilter) {
-                ModelMusic m = ModelMusic(
-                  titre: model.titre,
-                  artiste: model.artiste,
-                  url: model.url,
-                  size: model.size,
-                );
-                listModel.add(m);
-              }
-
-              playlist = PlaylistMusic(listmodel: listModel, index: index);
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MusicPlayerPage(playlist: playlist),
+                  builder: (context) =>
+                      ArtistMusic(artistMusic(artistList[index])),
                 ),
               );
             },
             child: Container(
-              margin: EdgeInsets.only(right: 25.0),
+              margin: index != (snapshot.length - 1)
+                  ? EdgeInsets.only(right: 25.0)
+                  : EdgeInsets.only(right: 0.0),
               width: 150.0,
               // height: 80.0,
               child: ClipRRect(
@@ -202,27 +222,31 @@ class _ChansonsState extends State<Chansons> {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
-                            snapshot[index].image,
+                            'assets/artiste.jpg',
                           ),
                           fit: BoxFit.cover,
                         ),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            snapshot[index].titre,
-                            style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.white,
-                                fontFamily: fonttitle,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          //SizedBox(height: 7.0),
-                          Text(snapshot[index].artiste,
-                              style: TextStyle(
-                                  fontSize: 14.0, color: Colors.white60)),
-                        ],
+                      child: Center(
+                        child: Stack(
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  snapshot[index],
+                                  style: TextStyle(
+                                      fontSize: 20.0,
+                                      //color: Colors.white,
+                                      fontFamily: font,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                //S
+                              ],
+                            ),
+                            lastindex(index),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -395,6 +419,40 @@ class _ChansonsState extends State<Chansons> {
           ),
         ),
       );
+    }
+  }
+
+  Widget lastindex(int index) {
+    if (index == artistListFilter.length - 1) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            color: Colors.black.withOpacity(0.7),
+            width: 60.0,
+            child: Center(
+              child: FlatButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ArtistList(artistListFilter, allDataFilter),
+                    ),
+                  );
+                },
+                child: Icon(
+                  Icons.navigate_next,
+                  color: Colors.white,
+                  size: 30.0,
+                ),
+              ),
+            ),
+          )
+        ],
+      );
+    } else {
+      return Text('');
     }
   }
 }
