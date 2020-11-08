@@ -29,7 +29,6 @@ class _InformationState extends State<Information> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      
       child: Container(
         width: double.infinity,
         decoration: linear(),

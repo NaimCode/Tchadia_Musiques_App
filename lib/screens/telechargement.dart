@@ -122,7 +122,7 @@ class _TelechargementState extends State<Telechargement> {
                                     flex: 1,
                                     child: Stack(children: [
                                       Image.asset(
-                                        imageAlbum,
+                                        allData[index].image,
                                         width: 60.0,
                                         height: 70.0,
                                       ),

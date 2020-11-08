@@ -3,19 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:music_app3/constante/colors.dart';
 import 'package:music_app3/constante/model.dart';
-import 'package:music_app3/screens/index.dart';
 import 'package:music_app3/screens/download.dart';
+import 'package:music_app3/screens/index.dart';
 import 'package:music_app3/screens/music.dart';
 
-class Artistes extends StatefulWidget {
-  bool pop;
-  Artistes({this.pop});
+// ignore: must_be_immutable
+class ContributeurMusic extends StatefulWidget {
+  String con;
+  String rank;
+  ContributeurMusic({this.con, this.rank});
   @override
-  _ArtistesState createState() => _ArtistesState();
+  _ContributeurMusicState createState() => _ContributeurMusicState();
 }
 
-class _ArtistesState extends State<Artistes> {
-  bool pop = false;
+class _ContributeurMusicState extends State<ContributeurMusic> {
   String fonttitle = FontsTitle;
   String font = Fonts;
   List<ModelMusic> listModel = [];
@@ -24,8 +25,9 @@ class _ArtistesState extends State<Artistes> {
   List data = [];
   List allDataFilter = [];
   Future notFilter;
-  String imageAlbum = 'assets/album1.PNG';
-  String image = 'assets/BackEqaliseur.jpg';
+  String con;
+  String rank;
+
   var futureBuild;
 
   Future getData() async {
@@ -33,9 +35,12 @@ class _ArtistesState extends State<Artistes> {
         await FirebaseFirestore.instance.collection('Music').get();
 
     qn.docs.forEach((element) {
-      ModelMusicFirebase model = ModelMusicFirebase.fromMap(element.data());
-      data.add(model);
+      if (element.data()['contributeur'] == con) {
+        ModelMusicFirebase model = ModelMusicFirebase.fromMap(element.data());
+        data.add(model);
+      }
     });
+
     setState(() {
       allData = data;
       allDataFilter = allData;
@@ -44,7 +49,8 @@ class _ArtistesState extends State<Artistes> {
   }
 
   void initState() {
-    pop = widget.pop;
+    rank = widget.rank;
+    con = widget.con;
     futureBuild = getData();
     searchController.addListener(searchFunction);
     super.initState();
@@ -78,55 +84,51 @@ class _ArtistesState extends State<Artistes> {
     super.dispose();
   }
 
-  Scaffold appBar(bool pop) {
-    if (!pop) {
-      return Scaffold(
-        body: Container(
-          decoration: linear(),
-          child: Column(
-            children: [
-              searchWidget(),
-              Expanded(
-                child: listView(allDataFilter),
-              ),
-            ],
+  Scaffold appBar() {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.expand_more,
+            color: Colors.white,
+            size: 30,
           ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
-      );
-    } else {
-      return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              Icons.expand_more,
-              color: Colors.white,
-              size: 30,
+        backgroundColor: Colors.purple[900],
+        elevation: 0.0,
+        centerTitle: true,
+        title: Row(
+          children: [
+            Image.asset(
+              rank,
+              height: 40.0,
             ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          backgroundColor: Colors.purple[900],
-          elevation: 0.0,
-          title: Text('Musiques',
-              style: TextStyle(
-                  fontFamily: fonttitle,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 3.0)),
+            SizedBox(
+              width: 20.0,
+            ),
+            Text(con,
+                style: TextStyle(
+                    fontFamily: font,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 3.0)),
+          ],
         ),
-        body: Container(
-          decoration: linear(),
-          child: Column(
-            children: [
-              searchWidget(),
-              Expanded(
-                child: listView(allDataFilter),
-              ),
-            ],
-          ),
+      ),
+      body: Container(
+        decoration: linear(),
+        child: Column(
+          children: [
+            searchWidget(),
+            Expanded(
+              child: listView(allDataFilter),
+            ),
+          ],
         ),
-      );
-    }
+      ),
+    );
   }
 
   TextEditingController searchController = TextEditingController();
@@ -146,7 +148,9 @@ class _ArtistesState extends State<Artistes> {
                 ),
               );
             } else {
-              return appBar(pop);
+              return Container(
+                child: appBar(),
+              );
             }
           }),
     );

@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:music_app3/constante/colors.dart';
 import 'package:music_app3/constante/model.dart';
+import 'package:music_app3/screens/conributeurmusic.dart';
 
 class Contributeru extends StatefulWidget {
   @override
@@ -61,6 +62,15 @@ class _ContributeruState extends State<Contributeru> {
     super.initState();
   }
 
+  pushFunction(String con, String rank) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ContributeurMusic(con: con, rank: rank),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,7 +109,9 @@ class _ContributeruState extends State<Contributeru> {
                   ),
                   (conL[0] != null)
                       ? InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            pushFunction(conL[0].username, 'assets/1.png');
+                          },
                           child: Card(
                             color: Colors.grey[900].withOpacity(0),
                             child: Padding(
@@ -139,7 +151,9 @@ class _ContributeruState extends State<Contributeru> {
                       : Text(''),
                   (conL[1] != null)
                       ? InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            pushFunction(conL[1].username, 'assets/2.png');
+                          },
                           child: Card(
                             color: Colors.grey[900].withOpacity(0),
                             child: Padding(
@@ -179,7 +193,9 @@ class _ContributeruState extends State<Contributeru> {
                       : Text(''),
                   (conL[2] != null)
                       ? InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            pushFunction(conL[2].username, 'assets/3.png');
+                          },
                           child: Card(
                             color: Colors.grey[900].withOpacity(0),
                             child: Padding(
