@@ -123,8 +123,10 @@ class _PlaylistState extends State<Upload> {
         'contributeur': contributeur,
         // 'music_duration': duration,
       };
-
-      firestoreinstance.collection('Contributeur').doc(contributeur);
+      var data2 = {
+        'username': contributeur,
+      };
+      firestoreinstance.collection('Contributeurs').doc().set(data2);
       firestoreinstance.collection('Music').doc().set(data);
       setState(() {
         titreInput.clear();
@@ -169,6 +171,8 @@ class _PlaylistState extends State<Upload> {
               SizedBox(
                 height: 20,
               ),
+              Text('La musique est entrain d\être chargée',
+                  style: TextStyle(color: Colors.white)),
               Text('Patientez s\'il vous plait...',
                   style: TextStyle(color: Colors.white)),
               SizedBox(

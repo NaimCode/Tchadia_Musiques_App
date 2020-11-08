@@ -115,7 +115,7 @@ class _SplashState extends State<Splash> {
               //height: 40.0,
               width: 100.0,
               child: RaisedButton(
-                  color: Color(0xff654BFF),
+                  color: Colors.indigo[900],
                   onPressed: () {
                     if (nomInput.text.length < 4) {
                       setState(() {

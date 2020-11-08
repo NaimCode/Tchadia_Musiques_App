@@ -90,7 +90,7 @@ class _ArtistMusicState extends State<ArtistMusic> {
               );
             },
             child: Card(
-              color: Colors.grey[900].withOpacity(1),
+              color: Colors.purple[900].withOpacity(1),
               child: Padding(
                 padding: EdgeInsets.only(left: 10.0, right: 3.0),
                 child: Row(
