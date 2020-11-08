@@ -41,3 +41,9 @@ class User {
   String nom, image, theme;
   User({this.nom, this.theme, this.image});
 }
+
+class Contributeur {
+  String username;
+  int numMusic;
+  Contributeur({this.username, this.numMusic});
+}
