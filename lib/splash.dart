@@ -3,6 +3,7 @@ import 'package:music_app3/constante/colors.dart';
 import 'package:music_app3/notifier/db_helper.dart';
 import 'package:music_app3/screens/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -15,29 +16,58 @@ class _SplashState extends State<Splash> {
   TextEditingController titreInput = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 40.0, horizontal: 20.0),
-      decoration: imageSplash(),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          RaisedButton(
-            color: Color(0xff654BFF),
-            onPressed: () {
-              FirstDialog();
-            },
-            child: Container(
-              height: 60.0,
-              child: Center(
+    return Scaffold(
+      body: Container(
+        color: Colors.white,
+        padding: EdgeInsets.symmetric(vertical: 40.0, horizontal: 5.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
                 child: Text(
-                  'COMMENCER',
+                  'TCHADIA',
                   style: TextStyle(
-                      fontSize: 30.0, color: Colors.white, fontFamily: 'Unna'),
+                      color: Colors.indigo[900],
+                      fontFamily: font,
+                      fontSize: 40.0),
                 ),
               ),
-            ),
-          )
-        ],
+              Image.asset('assets/splashIllustration.png'),
+              Container(
+                child: Text(
+                  'Découvrez la première application musicale tchadienne!',
+                  style: TextStyle(
+                      color: Colors.indigo[900],
+                      fontFamily: font,
+                      fontSize: 18.0),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+                child: RaisedButton(
+                  color: Colors.indigo[900],
+                  onPressed: () {
+                    FirstDialog();
+                  },
+                  child: Container(
+                    height: 60.0,
+                    child: Center(
+                      child: Text(
+                        'COMMENCER',
+                        style: TextStyle(
+                            fontSize: 30.0,
+                            color: Colors.white,
+                            fontFamily: 'Unna'),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

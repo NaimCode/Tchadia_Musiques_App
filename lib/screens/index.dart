@@ -18,8 +18,14 @@ class Constants {
   static const String telecharger = 'Télécharger';
   static const String partager = 'Partager';
   static const String ecouter = 'Ecouter';
+  static const String information = 'Information';
 
-  static const List<String> choices = <String>[ecouter, telecharger, partager];
+  static const List<String> choices = <String>[
+    ecouter,
+    telecharger,
+    partager,
+    information,
+  ];
 }
 
 class _ChansonsState extends State<Chansons> {

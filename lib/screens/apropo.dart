@@ -32,6 +32,7 @@ class _InformationState extends State<Information> {
       width: MediaQuery.of(context).size.width / 2,
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0.0,
           title: Text('$nom', style: TextStyle(fontFamily: fonttitle)),
           centerTitle: true,
           leading: FlatButton(
@@ -48,7 +49,7 @@ class _InformationState extends State<Information> {
           width: double.infinity,
           decoration: linear(),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
                 child: Row(
@@ -59,7 +60,7 @@ class _InformationState extends State<Information> {
                         backgroundImage: AssetImage(
                           'assets/album1.PNG',
                         ),
-                        radius: 100,
+                        radius: 110,
                       ),
                     ),
                   ],
@@ -84,7 +85,7 @@ class _InformationState extends State<Information> {
                 ),
               ),
               SizedBox(
-                height: 20.0,
+                height: 10.0,
               ),
               Card(
                 color: Colors.grey[900].withOpacity(0),
@@ -105,7 +106,7 @@ class _InformationState extends State<Information> {
                 ),
               ),
               SizedBox(
-                height: 20.0,
+                height: 10.0,
               ),
               Card(
                 color: Colors.grey[900].withOpacity(0),
@@ -126,7 +127,7 @@ class _InformationState extends State<Information> {
                 ),
               ),
               SizedBox(
-                height: 20.0,
+                height: 10.0,
               ),
               Card(
                 color: Colors.grey[900].withOpacity(0),
@@ -147,7 +148,7 @@ class _InformationState extends State<Information> {
                 ),
               ),
               SizedBox(
-                height: 20.0,
+                height: 10.0,
               ),
               Card(
                 color: Colors.grey[900].withOpacity(0),
