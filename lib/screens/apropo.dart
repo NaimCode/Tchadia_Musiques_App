@@ -33,23 +33,8 @@ class _InformationState extends State<Information> {
         width: double.infinity,
         decoration: linear(),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    child: CircleAvatar(
-                      backgroundImage: AssetImage(
-                        'assets/album1.PNG',
-                      ),
-                      radius: 110,
-                    ),
-                  ),
-                ],
-              ),
-            ),
             Card(
               color: Colors.grey[900].withOpacity(0),
               child: FlatButton(
@@ -119,12 +104,12 @@ class _InformationState extends State<Information> {
                 onPressed: () {},
                 child: Row(
                   children: [
-                    Icon(Icons.people_alt_outlined, color: Colors.white70),
+                    Icon(Icons.vpn_key, color: Colors.white70),
                     SizedBox(
                       width: 30,
                     ),
                     Text(
-                      'Contributeurs',
+                      'Termes et conditions',
                       style: TextStyle(color: Colors.white70),
                     )
                   ],

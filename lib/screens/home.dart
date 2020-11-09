@@ -18,10 +18,24 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  var nom = '';
+  var nom1;
+
+  prf() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    nom1 = prefs.getString('Nom') ?? "";
+
+    setState(() {
+      nom = nom1;
+    });
+  }
+
   String fonttitle = FontsTitle;
   String font = Fonts;
   int currentindex = 2;
   Text appTitle(int i) {
+    prf();
+
     switch (i) {
       case 0:
         return Text('Téléchargements',
@@ -29,32 +43,37 @@ class _HomeState extends State<Home> {
                 fontFamily: fonttitle,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 3.0));
+        break;
       case 1:
         return Text('Contributeurs',
             style: TextStyle(
                 fontFamily: fonttitle,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 3.0));
+        break;
       case 2:
         return Text('Tchadia',
             style: TextStyle(
                 fontFamily: fonttitle,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 3.0));
+        break;
       case 3:
         return Text('Musiques',
             style: TextStyle(
                 fontFamily: fonttitle,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 3.0));
+        break;
       case 4:
-        return Text('Profil',
+        return Text('$nom',
             style: TextStyle(
                 fontFamily: fonttitle,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 3.0));
         break;
       default:
+        return Text('');
     }
     // if (i == 0) {
     //   return Text('Téléchargements',
@@ -87,7 +106,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-  //var nom = prefs.getString('Nom') ?? "";
+  //
   @override
   Widget build(BuildContext context) {
     List tabs = [
@@ -128,7 +147,7 @@ class _HomeState extends State<Home> {
             color: Colors.white70,
           ),
           Icon(
-            Icons.person,
+            Icons.menu,
             size: 25,
             color: Colors.white70,
           ),
@@ -160,9 +179,6 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.purple[900],
         elevation: appTitleEle(currentindex),
         centerTitle: true,
-        actions: [
-          IconButton(icon: Icon(Icons.menu_sharp), onPressed: () {}),
-        ],
       ),
     );
   }
