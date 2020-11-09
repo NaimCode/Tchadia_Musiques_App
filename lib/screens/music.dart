@@ -17,6 +17,7 @@ class MusicPlayerPage extends StatefulWidget {
 
 class _MusicPalyerPageState extends State<MusicPlayerPage> {
   String fonttitle = FontsTitle;
+  String error = 'Chargement...';
   String font = Fonts;
   PlaylistMusic playlist;
   bool chargementMusic = true;
@@ -70,7 +71,13 @@ class _MusicPalyerPageState extends State<MusicPlayerPage> {
   format(Duration d) => d.toString().substring(2, 7);
   void musicInitialisation(int x) async {
     player.stop();
-    duration = await player.setUrl(playlist.listmodel[x].url);
+    try {
+      duration = await player.setUrl(playlist.listmodel[x].url);
+    } on Exception catch (e) {
+      setState(() {
+        error = 'Impossible de lire la musique';
+      });
+    }
     setState(() {
       chargementMusic = false;
     });
@@ -103,7 +110,7 @@ class _MusicPalyerPageState extends State<MusicPlayerPage> {
               SizedBox(
                 height: 20,
               ),
-              Text('Chargement...', style: TextStyle(color: Colors.white)),
+              Text(error, style: TextStyle(color: Colors.white)),
             ],
           ),
         ),

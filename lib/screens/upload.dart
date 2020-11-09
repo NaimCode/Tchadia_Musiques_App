@@ -36,6 +36,9 @@ class _PlaylistState extends State<Upload> {
   bool loadingMusicMini = false;
   final firestoreinstance = FirebaseFirestore.instance;
   void selectMusic() async {
+    setState(() {
+      loadingSelectMusic = true;
+    });
     FilePickerResult result = await FilePicker.platform.pickFiles();
     if (result != null) {
       music = File(result.files.single.path);
@@ -47,10 +50,11 @@ class _PlaylistState extends State<Upload> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       contributeur = prefs.getString('Nom') ?? 'Inconnu';
       uploadsongfile(music.readAsBytesSync(), musicpath, music.path);
+    } else {
+      setState(() async {
+        loadingSelectMusic = false;
+      });
     }
-    setState(() {
-      loadingSelectMusic = true;
-    });
   }
 
   format(Duration d) => d.toString().substring(2, 7);
@@ -106,7 +110,7 @@ class _PlaylistState extends State<Upload> {
     return listImage[r.nextInt(listImage.length)];
   }
 
-  finalupload() async {
+  bool finalupload() {
     if (titreInput.text.toString().isNotEmpty &&
         artisteInput.text.toString().isNotEmpty &&
         music_down_url.toString() != null) {
@@ -200,6 +204,16 @@ class _PlaylistState extends State<Upload> {
     } else {
       return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(
+              Icons.expand_more,
+              color: Colors.white,
+              size: 30,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
           backgroundColor: Colors.purple[900],
           elevation: 10.0,
           title: Text(
@@ -226,10 +240,13 @@ class _PlaylistState extends State<Upload> {
               SizedBox(
                 height: 10,
               ),
-              Text(
-                'Veuillez remplir les champs suivants',
-                style: TextStyle(
-                  color: Colors.white70,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Veuillez remplir les champs suivants',
+                  style: TextStyle(
+                    color: Colors.white70,
+                  ),
                 ),
               ),
               Padding(
@@ -288,10 +305,14 @@ class _PlaylistState extends State<Upload> {
                         }
                       },
                     ),
-                    Text(
-                      'Si vous ne connaissez pas le nom de l\'artiste,veuillez écrire "Inconnu" ',
-                      style: TextStyle(
-                        color: Colors.white70,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Si vous ne connaissez pas le nom de l\'artiste,veuillez écrire "Inconnu" ',
+                        style: TextStyle(
+                          color: Colors.white70,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                     Row(
@@ -303,16 +324,24 @@ class _PlaylistState extends State<Upload> {
                           icon: Icon(Icons.add, color: Colors.white),
                           label: Text(
                             'Choisir une musique',
-                            style: TextStyle(color: Colors.white),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 20.0),
                           ),
                         ),
                         loadingMusicMini
                             ? Icon(
                                 Icons.verified,
                                 color: Colors.white,
+                                size: 30.0,
                               )
-                            : Icon(Icons.verified, color: Colors.white12)
+                            : SpinKitThreeBounce(
+                                color: Colors.white,
+                                size: 30.0,
+                              )
                       ],
+                    ),
+                    SizedBox(
+                      height: 100.0,
                     ),
                     Builder(builder: (BuildContext context) {
                       return FlatButton.icon(
@@ -330,7 +359,7 @@ class _PlaylistState extends State<Upload> {
                           ),
                           label: Text(
                             'Ajouter la musique',
-                            style: TextStyle(),
+                            style: TextStyle(fontSize: 20.0),
                           ));
                     })
                   ],
