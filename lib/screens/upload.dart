@@ -36,9 +36,6 @@ class _PlaylistState extends State<Upload> {
   bool loadingMusicMini = false;
   final firestoreinstance = FirebaseFirestore.instance;
   void selectMusic() async {
-    setState(() {
-      loadingSelectMusic = true;
-    });
     FilePickerResult result = await FilePicker.platform.pickFiles();
     if (result != null) {
       music = File(result.files.single.path);
@@ -50,11 +47,10 @@ class _PlaylistState extends State<Upload> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       contributeur = prefs.getString('Nom') ?? 'Inconnu';
       uploadsongfile(music.readAsBytesSync(), musicpath, music.path);
-    } else {
-      setState(() async {
-        loadingSelectMusic = false;
-      });
     }
+    setState(() {
+      loadingSelectMusic = true;
+    });
   }
 
   format(Duration d) => d.toString().substring(2, 7);
@@ -66,6 +62,7 @@ class _PlaylistState extends State<Upload> {
     uploadTask = ref.putData(song);
     music_down_url = await (await uploadTask.onComplete).ref.getDownloadURL();
     musicTimer = format(await player.setUrl(path));
+
     setState(() {
       loadingUpload = false;
       loadingMusicMini = true;
@@ -109,7 +106,7 @@ class _PlaylistState extends State<Upload> {
     return listImage[r.nextInt(listImage.length)];
   }
 
-  bool finalupload() {
+  finalupload() async {
     if (titreInput.text.toString().isNotEmpty &&
         artisteInput.text.toString().isNotEmpty &&
         music_down_url.toString() != null) {
@@ -126,7 +123,10 @@ class _PlaylistState extends State<Upload> {
       var data2 = {
         'username': contributeur,
       };
-      firestoreinstance.collection('Contributeurs').doc().set(data2);
+      firestoreinstance
+          .collection('Contributeurs')
+          .doc(contributeur)
+          .set(data2);
       firestoreinstance.collection('Music').doc().set(data);
       setState(() {
         titreInput.clear();
@@ -318,7 +318,8 @@ class _PlaylistState extends State<Upload> {
                       return FlatButton.icon(
                           color: Colors.amber,
                           onPressed: () {
-                            bool ckeck = finalupload();
+                            var ckeck = finalupload();
+
                             ckeck
                                 ? Scaffold.of(context).showSnackBar(snackBar)
                                 : Scaffold.of(context)
