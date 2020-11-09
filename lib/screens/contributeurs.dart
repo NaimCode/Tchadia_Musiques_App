@@ -90,149 +90,159 @@ class _ContributeruState extends State<Contributeru> {
               decoration: linear(),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    child: Image.asset(
-                      'assets/upload.jpg',
+                    height: MediaQuery.of(context).size.height / 3,
+                    child: Image.asset('assets/upload.jpg',
+                        fit: BoxFit.cover, width: double.infinity),
+                  ),
+                  Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            'Top 3 contributeurs',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                                fontFamily: font),
+                          ),
+                        ),
+                        (conL[0] != null)
+                            ? InkWell(
+                                onTap: () {
+                                  pushFunction(
+                                      conL[0].username, 'assets/1.png');
+                                },
+                                child: Card(
+                                  color: Colors.grey[900].withOpacity(0),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Image.asset(
+                                          'assets/1.png',
+                                          height: 60.0,
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text(conL[0].username,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 25.0,
+                                                    fontFamily: font)),
+                                            Text('${conL[0].numMusic}',
+                                                style: TextStyle(
+                                                    color: Colors.white60,
+                                                    fontSize: 18.0,
+                                                    fontFamily: fonttitle)),
+                                          ],
+                                        ),
+                                        Icon(
+                                          Icons.navigate_next,
+                                          color: Colors.white60,
+                                          size: 30,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Text(''),
+                        (conL[1] != null)
+                            ? InkWell(
+                                onTap: () {
+                                  pushFunction(
+                                      conL[1].username, 'assets/2.png');
+                                },
+                                child: Card(
+                                  color: Colors.grey[900].withOpacity(0),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Image.asset(
+                                          'assets/2.png',
+                                          height: 60.0,
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text(conL[1].username,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 25.0,
+                                                    fontFamily: font)),
+                                            Text('${conL[1].numMusic}',
+                                                style: TextStyle(
+                                                    color: Colors.white60,
+                                                    fontSize: 18.0,
+                                                    fontFamily: fonttitle)),
+                                          ],
+                                        ),
+                                        Icon(
+                                          Icons.navigate_next,
+                                          color: Colors.white60,
+                                          size: 30,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Text(''),
+                        (conL[2] != null)
+                            ? InkWell(
+                                onTap: () {
+                                  pushFunction(
+                                      conL[2].username, 'assets/3.png');
+                                },
+                                child: Card(
+                                  color: Colors.grey[900].withOpacity(0),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Image.asset(
+                                          'assets/3.png',
+                                          height: 60.0,
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text(conL[2].username,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 25.0,
+                                                    fontFamily: font)),
+                                            Text('${conL[2].numMusic}',
+                                                style: TextStyle(
+                                                    color: Colors.white60,
+                                                    fontSize: 18.0,
+                                                    fontFamily: fonttitle)),
+                                          ],
+                                        ),
+                                        Icon(
+                                          Icons.navigate_next,
+                                          color: Colors.white60,
+                                          size: 30,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Text(''),
+                      ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(
-                      'Top 3 contributeurs',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontFamily: font),
-                    ),
-                  ),
-                  (conL[0] != null)
-                      ? InkWell(
-                          onTap: () {
-                            pushFunction(conL[0].username, 'assets/1.png');
-                          },
-                          child: Card(
-                            color: Colors.grey[900].withOpacity(0),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Image.asset(
-                                    'assets/1.png',
-                                    height: 60.0,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(conL[0].username,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 25.0,
-                                              fontFamily: font)),
-                                      Text('${conL[0].numMusic}',
-                                          style: TextStyle(
-                                              color: Colors.white60,
-                                              fontSize: 18.0,
-                                              fontFamily: fonttitle)),
-                                    ],
-                                  ),
-                                  Icon(
-                                    Icons.navigate_next,
-                                    color: Colors.white60,
-                                    size: 30,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                      : Text(''),
-                  (conL[1] != null)
-                      ? InkWell(
-                          onTap: () {
-                            pushFunction(conL[1].username, 'assets/2.png');
-                          },
-                          child: Card(
-                            color: Colors.grey[900].withOpacity(0),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Image.asset(
-                                    'assets/2.png',
-                                    height: 60.0,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(conL[1].username,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 25.0,
-                                              fontFamily: font)),
-                                      Text('${conL[1].numMusic}',
-                                          style: TextStyle(
-                                              color: Colors.white60,
-                                              fontSize: 18.0,
-                                              fontFamily: fonttitle)),
-                                    ],
-                                  ),
-                                  Icon(
-                                    Icons.navigate_next,
-                                    color: Colors.white60,
-                                    size: 30,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                      : Text(''),
-                  (conL[2] != null)
-                      ? InkWell(
-                          onTap: () {
-                            pushFunction(conL[2].username, 'assets/3.png');
-                          },
-                          child: Card(
-                            color: Colors.grey[900].withOpacity(0),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Image.asset(
-                                    'assets/3.png',
-                                    height: 60.0,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(conL[2].username,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 25.0,
-                                              fontFamily: font)),
-                                      Text('${conL[2].numMusic}',
-                                          style: TextStyle(
-                                              color: Colors.white60,
-                                              fontSize: 18.0,
-                                              fontFamily: fonttitle)),
-                                    ],
-                                  ),
-                                  Icon(
-                                    Icons.navigate_next,
-                                    color: Colors.white60,
-                                    size: 30,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                      : Text(''),
                 ],
               ),
             );
