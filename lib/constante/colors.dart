@@ -81,3 +81,4 @@ String sansita = 'SansitaSwashed';
 String unna = 'Unna';
 String FontsTitle = sansita;
 String Fonts = unna;
+Color primary = Colors.purple[900];

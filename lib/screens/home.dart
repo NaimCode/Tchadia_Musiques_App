@@ -6,6 +6,7 @@ import 'package:music_app3/screens/apropo.dart';
 import 'package:music_app3/screens/allmusic.dart';
 import 'package:music_app3/screens/contributeurs.dart';
 import 'package:music_app3/screens/index.dart';
+import 'package:music_app3/screens/profil.dart';
 import 'package:music_app3/screens/profile.dart';
 import 'package:music_app3/screens/upload.dart';
 import 'package:music_app3/screens/telechargement.dart';
@@ -65,13 +66,7 @@ class _HomeState extends State<Home> {
                 fontWeight: FontWeight.bold,
                 letterSpacing: 3.0));
         break;
-      case 4:
-        return Text('$nom',
-            style: TextStyle(
-                fontFamily: fonttitle,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 3.0));
-        break;
+
       default:
         return Text('');
     }
@@ -115,10 +110,13 @@ class _HomeState extends State<Home> {
       Chansons(),
       //MusicPlayerPage(),
       Artistes(pop: false),
-      Information(),
+      Profil(),
     ];
 
     return Scaffold(
+      endDrawer: Drawer(
+        child: Information(),
+      ),
       bottomNavigationBar: CurvedNavigationBar(
         buttonBackgroundColor: Colors.purple[700],
         index: 2,
@@ -147,7 +145,7 @@ class _HomeState extends State<Home> {
             color: Colors.white70,
           ),
           Icon(
-            Icons.menu,
+            Icons.person,
             size: 25,
             color: Colors.white70,
           ),

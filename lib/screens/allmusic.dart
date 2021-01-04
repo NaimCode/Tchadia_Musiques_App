@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:music_app3/constante/colors.dart';
 import 'package:music_app3/constante/model.dart';
+import 'package:music_app3/constante/widget.dart';
 import 'package:music_app3/screens/index.dart';
 import 'package:music_app3/screens/download.dart';
 import 'package:music_app3/screens/music.dart';
@@ -138,13 +139,7 @@ class _ArtistesState extends State<Artistes> {
           future: futureBuild,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Container(
-                color: Colors.grey[900].withOpacity(0),
-                child: SpinKitCircle(
-                  color: Colors.white,
-                  size: 60.0,
-                ),
-              );
+              return chargement();
             } else {
               return appBar(pop);
             }
