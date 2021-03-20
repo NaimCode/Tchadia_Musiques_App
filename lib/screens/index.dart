@@ -197,7 +197,7 @@ class _ChansonsState extends State<Chansons> {
     return Container(
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: snapshot.length,
+        itemCount: 5,
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
@@ -210,7 +210,7 @@ class _ChansonsState extends State<Chansons> {
               );
             },
             child: Container(
-              margin: index != (snapshot.length - 1)
+              margin: index != 4
                   ? EdgeInsets.only(right: 25.0)
                   : EdgeInsets.only(right: 0.0),
               width: 150.0,

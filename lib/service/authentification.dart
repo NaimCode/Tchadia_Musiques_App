@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../obs.dart';
+
 final firestoreinstance = FirebaseFirestore.instance;
 
 //final facebookSignIn = FacebookLoginWeb();
@@ -45,7 +47,7 @@ class Authentification {
             'admin': false,
             'uid': user.uid,
           };
-
+          // isConnected.value = user.uid;
           await firestoreinstance
               .collection('Utilisateur')
               .doc(user.uid)

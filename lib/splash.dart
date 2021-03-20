@@ -186,6 +186,9 @@ class _SplashState extends State<Splash> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           selectButton(),
+          SizedBox(
+            height: 30,
+          ),
           (selectItemNav == 'se connecter')
               ? connectionSection()
               : enregistrementSection(),
@@ -283,7 +286,7 @@ class _SplashState extends State<Splash> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.person_sharp,color:Colors.white),
+                  child: Icon(Icons.person_sharp, color: Colors.white),
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -299,14 +302,16 @@ class _SplashState extends State<Splash> {
                   child: TextFormField(
                     controller: nomE,
                     decoration: new InputDecoration(
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.only(
-                            left: 15, bottom: 11, top: 11, right: 15),
-                        hintText: 'Nom',hintStyle: TextStyle(color: Colors.white38),),
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      contentPadding: EdgeInsets.only(
+                          left: 15, bottom: 11, top: 11, right: 15),
+                      hintText: 'Nom',
+                      hintStyle: TextStyle(color: Colors.white38),
+                    ),
                   ),
                 ),
               ],
@@ -322,7 +327,7 @@ class _SplashState extends State<Splash> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.mail,color:Colors.white),
+                  child: Icon(Icons.mail, color: Colors.white),
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -338,14 +343,16 @@ class _SplashState extends State<Splash> {
                   child: TextFormField(
                     controller: mailE,
                     decoration: new InputDecoration(
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.only(
-                            left: 15, bottom: 11, top: 11, right: 15),
-                        hintText: 'Email',hintStyle: TextStyle(color: Colors.white38),),
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      contentPadding: EdgeInsets.only(
+                          left: 15, bottom: 11, top: 11, right: 15),
+                      hintText: 'Email',
+                      hintStyle: TextStyle(color: Colors.white38),
+                    ),
                   ),
                 ),
               ],
@@ -361,7 +368,7 @@ class _SplashState extends State<Splash> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.lock, color:Colors.white),
+                  child: Icon(Icons.lock, color: Colors.white),
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -381,14 +388,16 @@ class _SplashState extends State<Splash> {
                         controller: passwordE,
                         obscureText: obscure ? true : false,
                         decoration: new InputDecoration(
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            contentPadding: EdgeInsets.only(
-                                left: 15, bottom: 11, top: 11, right: 15),
-                            hintText: 'Mot de passe',hintStyle: TextStyle(color: Colors.white38),),
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.only(
+                              left: 15, bottom: 11, top: 11, right: 15),
+                          hintText: 'Mot de passe',
+                          hintStyle: TextStyle(color: Colors.white38),
+                        ),
                       ),
                       IconButton(
                         alignment: Alignment.centerRight,
@@ -398,11 +407,10 @@ class _SplashState extends State<Splash> {
                           });
                         },
                         icon: obscure
-                            ? Icon(
-                                Icons.visibility,
-                                size: 20,color:Colors.white
-                              )
-                            : Icon(Icons.visibility_off, size: 20,color:Colors.white),
+                            ? Icon(Icons.visibility,
+                                size: 20, color: Colors.white)
+                            : Icon(Icons.visibility_off,
+                                size: 20, color: Colors.white),
                       )
                     ],
                   ),
@@ -412,11 +420,13 @@ class _SplashState extends State<Splash> {
           ),
           Center(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                  'Si vous avez déjà un compte, veuillez-vous connecter',
-                  style: TextStyle(fontFamily: 'Didac', fontSize: 12,color: Colors.white38))
-            ),
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                    'Si vous avez déjà un compte, veuillez-vous connecter',
+                    style: TextStyle(
+                        fontFamily: 'Didac',
+                        fontSize: 12,
+                        color: Colors.white38))),
           ),
           isCharging
               ? chargement()
@@ -455,36 +465,37 @@ class _SplashState extends State<Splash> {
           child: Column(
             children: [
               Container(
-                child: Row(
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Icon(Icons.mail, color: Colors.white),
                     ),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            //                    <--- top side
-                            color: erreurMail ? Colors.red : Colors.white,
-                            width: 2.0,
-                          ),
-                          borderRadius: BorderRadius.circular(10),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          //                    <--- top side
+                          color: erreurMail ? Colors.red : primary,
+                          width: 2.0,
                         ),
-                        child: TextFormField(
-                            controller: mail,
-                            decoration: new InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              errorBorder: InputBorder.none,
-                              disabledBorder: InputBorder.none,
-                              contentPadding: EdgeInsets.only(
-                                  left: 15, bottom: 5, top: 5, right: 15),
-                              hintText: 'Email',
-                              hintStyle: TextStyle(color: Colors.white38),
-                            )),
+                        borderRadius: BorderRadius.circular(10),
                       ),
+                      width: 290,
+                      child: TextFormField(
+                          controller: mail,
+                          decoration: new InputDecoration(
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            contentPadding: EdgeInsets.only(
+                                left: 15, bottom: 5, top: 5, right: 15),
+                            hintText: 'Email',
+                            hintStyle: TextStyle(color: Colors.white38),
+                          )),
                     ),
                   ],
                 ),
@@ -493,59 +504,56 @@ class _SplashState extends State<Splash> {
                 height: 15.0,
               ),
               Container(
-                child: Row(
-                  // alignment: WrapAlignment.center,
-                  // crossAxisAlignment: WrapCrossAlignment.center,
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Icon(Icons.lock, color: Colors.white),
                     ),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            //                    <--- top side
-                            color: erreurPassword ? Colors.red : Colors.white,
-                            width: 2.0,
-                          ),
-                          borderRadius: BorderRadius.circular(10),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          //                    <--- top side
+                          color: erreurPassword ? Colors.red : primary,
+                          width: 2.0,
                         ),
-                        child: Stack(
-                          alignment: Alignment.centerRight,
-                          children: [
-                            TextFormField(
-                              controller: password,
-                              obscureText: obscure ? true : false,
-                              decoration: new InputDecoration(
-                                border: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                errorBorder: InputBorder.none,
-                                disabledBorder: InputBorder.none,
-                                contentPadding: EdgeInsets.only(
-                                    left: 15, bottom: 11, top: 11, right: 15),
-                                hintText: 'Mot de passe',
-                                hintStyle: TextStyle(color: Colors.white38),
-                              ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      width: 290,
+                      child: Stack(
+                        alignment: Alignment.centerRight,
+                        children: [
+                          TextFormField(
+                            controller: password,
+                            obscureText: obscure ? true : false,
+                            decoration: new InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              contentPadding: EdgeInsets.only(
+                                  left: 15, bottom: 11, top: 11, right: 15),
+                              hintText: 'Mot de passe',
+                              hintStyle: TextStyle(color: Colors.white38),
                             ),
-                            IconButton(
-                              alignment: Alignment.centerRight,
-                              onPressed: () {
-                                setState(() {
-                                  obscure = !obscure;
-                                });
-                              },
-                              icon: obscure
-                                  ? Icon(
-                                      Icons.visibility,
-                                      size: 20,
-                                    )
-                                  : Icon(Icons.visibility_off,
-                                      size: 20, color: Colors.white),
-                            )
-                          ],
-                        ),
+                          ),
+                          IconButton(
+                            alignment: Alignment.centerRight,
+                            onPressed: () {
+                              setState(() {
+                                obscure = !obscure;
+                              });
+                            },
+                            icon: obscure
+                                ? Icon(Icons.visibility,
+                                    size: 20, color: Colors.white)
+                                : Icon(Icons.visibility_off,
+                                    size: 20, color: Colors.white),
+                          )
+                        ],
                       ),
                     ),
                   ],
@@ -556,7 +564,10 @@ class _SplashState extends State<Splash> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     'Si vous n\'avez pas encore un compte, veuillez-vous enregistrer',
-                    style: TextStyle(fontFamily: 'Didac', fontSize: 12),
+                    style: TextStyle(
+                        fontFamily: 'Didac',
+                        fontSize: 12,
+                        color: Colors.white30),
                     textAlign: TextAlign.center,
                   ),
                 ),

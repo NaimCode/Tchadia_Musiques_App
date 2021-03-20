@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:lottie/lottie.dart';
 import 'package:music_app3/constante/colors.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music_app3/constante/model.dart';
@@ -189,13 +190,11 @@ class _MusicPalyerPageState extends State<MusicPlayerPage> {
                     ),
                   ),
                 ),
-                Container(
-                  child: CircleAvatar(
-                    backgroundImage: AssetImage(
-                      playlist.listmodel[playlist.index].image,
-                    ),
-                    radius: 100,
-                  ),
+                Expanded(
+                  child: Container(
+                      child: Lottie.asset('assets/music.json',
+                          fit: BoxFit.cover,
+                          animate: isplaying ? true : false)),
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,

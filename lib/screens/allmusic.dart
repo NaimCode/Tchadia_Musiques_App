@@ -152,95 +152,105 @@ class _ArtistesState extends State<Artistes> {
       child: ListView.builder(
         itemCount: allDataFilter.length,
         itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {
-              listModel.clear();
-              for (var model in allDataFilter) {
-                ModelMusic m = ModelMusic(
-                  titre: model.titre,
-                  artiste: model.artiste,
-                  url: model.url,
-                  size: model.size,
-                  time: model.time,
-                  image: model.image,
-                  contributeur: model.contributeur,
-                );
-                listModel.add(m);
-              }
+          return allDataFilter.length == 0
+              ? Center(
+                  child: Text(
+                  'Aucune musique trouvée !',
+                  style: TextStyle(
+                      color: Colors.white, fontSize: 20, fontFamily: font),
+                ))
+              : InkWell(
+                  onTap: () {
+                    listModel.clear();
+                    for (var model in allDataFilter) {
+                      ModelMusic m = ModelMusic(
+                        titre: model.titre,
+                        artiste: model.artiste,
+                        url: model.url,
+                        size: model.size,
+                        time: model.time,
+                        image: model.image,
+                        contributeur: model.contributeur,
+                      );
+                      listModel.add(m);
+                    }
 
-              playlist = PlaylistMusic(listmodel: listModel, index: index);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MusicPlayerPage(playlist: playlist),
-                ),
-              );
-            },
-            child: Card(
-              color: Colors.grey[900].withOpacity(0),
-              child: Padding(
-                padding: EdgeInsets.only(left: 10.0, right: 3.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Stack(children: [
-                        Image.asset(
-                          snapshot[index].image,
-                          width: 60.0,
-                          height: 70.0,
-                        ),
-                        Container(
-                            width: 60.0,
-                            height: 70.0,
-                            child: Center(
-                                child: Icon(
-                              Icons.play_arrow,
-                              size: 50,
-                              color: Colors.white60,
-                            ))),
-                      ]),
-                    ),
-                    SizedBox(
-                      width: 20.0,
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              snapshot[index].titre,
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.white,
-                                fontFamily: fonttitle,
+                    playlist =
+                        PlaylistMusic(listmodel: listModel, index: index);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            MusicPlayerPage(playlist: playlist),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    color: Colors.grey[900].withOpacity(0),
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 10.0, right: 3.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Stack(children: [
+                              Image.asset(
+                                snapshot[index].image,
+                                width: 60.0,
+                                height: 70.0,
+                              ),
+                              Container(
+                                  width: 60.0,
+                                  height: 70.0,
+                                  child: Center(
+                                      child: Icon(
+                                    Icons.play_arrow,
+                                    size: 50,
+                                    color: Colors.white60,
+                                  ))),
+                            ]),
+                          ),
+                          SizedBox(
+                            width: 20.0,
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    snapshot[index].titre,
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.white,
+                                      fontFamily: fonttitle,
+                                    ),
+                                  ),
+                                  //SizedBox(height: 7.0),
+                                  Text(snapshot[index].artiste,
+                                      style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.white60,
+                                          fontFamily: font)),
+                                  SizedBox(
+                                    height: 9.0,
+                                  ),
+                                  Text(snapshot[index].time,
+                                      style: TextStyle(
+                                          color: Colors.white30,
+                                          fontSize: 10.0)),
+                                ],
                               ),
                             ),
-                            //SizedBox(height: 7.0),
-                            Text(snapshot[index].artiste,
-                                style: TextStyle(
-                                    fontSize: 14.0,
-                                    color: Colors.white60,
-                                    fontFamily: font)),
-                            SizedBox(
-                              height: 9.0,
-                            ),
-                            Text(snapshot[index].time,
-                                style: TextStyle(
-                                    color: Colors.white30, fontSize: 10.0)),
-                          ],
-                        ),
+                          ),
+                          popMenu(allData, index)
+                        ],
                       ),
                     ),
-                    popMenu(allData, index)
-                  ],
-                ),
-              ),
-            ),
-          );
+                  ),
+                );
         },
       ),
     );
