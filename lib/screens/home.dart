@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
                 letterSpacing: 3.0));
         break;
       case 2:
-        return Text('Artistes',
+        return Text('Musiques',
             style: TextStyle(
                 fontFamily: fonttitle,
                 fontWeight: FontWeight.bold,
@@ -45,7 +45,7 @@ class _HomeState extends State<Home> {
         break;
 
       case 1:
-        return Text('Amal Yachi',
+        return Text('Tchadia',
             style: TextStyle(
                 fontFamily: fonttitle,
                 fontWeight: FontWeight.bold,
