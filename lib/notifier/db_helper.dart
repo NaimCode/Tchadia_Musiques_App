@@ -36,7 +36,7 @@ class DataBase {
   Future getUser() async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM User');
-    User user;
+    Utilisateur user;
     try {
       user.nom = list[0]["nom"];
       user.theme = list[0]["theme"];
@@ -112,7 +112,7 @@ class DataBase {
         .rawDelete('DELETE FROM Music WHERE titre = ?', [model.titre]);
   }
 
-  void saveUser(User user) async {
+  void saveUser(Utilisateur user) async {
     var dbClient = await db;
     await dbClient.transaction((txn) async {
       return await txn.rawInsert('INSERT INTO User(nom,theme,image) VALUES(' +

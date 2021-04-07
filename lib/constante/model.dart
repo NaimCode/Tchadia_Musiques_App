@@ -37,9 +37,19 @@ class ModelMusicFirebase {
   }
 }
 
-class User {
-  String nom, image, theme;
-  User({this.nom, this.theme, this.image});
+class Utilisateur {
+  String nom, image, theme, email, uid;
+  bool admin;
+  List<String> follower, following;
+  Utilisateur(
+      {this.nom,
+      this.theme,
+      this.image,
+      this.email,
+      this.admin,
+      this.uid,
+      this.follower,
+      this.following});
 }
 
 class Contributeur {

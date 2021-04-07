@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_app3/constante/colors.dart';
 import 'package:music_app3/notifier/db_helper.dart';
+import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../extra.dart';
 
 class Information extends StatefulWidget {
   @override
@@ -35,6 +39,31 @@ class _InformationState extends State<Information> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Card(
+              color: Colors.grey[900].withOpacity(0),
+              child: FlatButton(
+                onPressed: () {
+                  Share.share(
+                      'Email: naim.developer@outlook.com, Tel: 00212700480681',
+                      subject: 'Naim Abdelkerim');
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.contact_mail, color: Colors.white70),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Text(
+                      'Contactez-nous',
+                      style: TextStyle(color: Colors.white70),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
             Card(
               color: Colors.grey[900].withOpacity(0),
               child: FlatButton(
@@ -80,7 +109,9 @@ class _InformationState extends State<Information> {
             Card(
               color: Colors.grey[900].withOpacity(0),
               child: FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(Policity());
+                },
                 child: Row(
                   children: [
                     Icon(Icons.privacy_tip_outlined, color: Colors.white70),
@@ -101,7 +132,9 @@ class _InformationState extends State<Information> {
             Card(
               color: Colors.grey[900].withOpacity(0),
               child: FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(Termes());
+                },
                 child: Row(
                   children: [
                     Icon(Icons.vpn_key, color: Colors.white70),
