@@ -1,4 +1,4 @@
-# music_app
+# Tchadia
 Application de streaming musical
 # Mobile
 <img src="screenshot/1.png"/>
